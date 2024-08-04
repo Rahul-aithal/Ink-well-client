@@ -37,7 +37,7 @@ const testimonials = [
 export function Home() {
   const InfiniteReviews = useMemo(
     () => (
-      <div className="h-[40rem] rounded-md flex flex-col antialiased bg-white dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden max-w-3xl">
+      <div className="h-[40rem] rounded-md flex flex-col antialiased bg-white dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden ">
         <InfiniteMovingCards
           items={testimonials}
           direction="right"
@@ -49,13 +49,13 @@ export function Home() {
   );
 
   return (
-    <div className="flex flex-col items-center gap-5 justify-around overflow-x-hidden">
+    <div className="flex flex-col items-center gap-5 justify-around ">
       {/* Heading Starts  */}
       <div className="text-center flex flex-col items-center">
         <h1 className="text-xl font-extrabold dark:text-white my-2">
           Welcome to Ink Well
         </h1>
-        <p className="text-sm text-gray-600 my-2">
+        <p className="text-sm text-gray-600 my-2 dark:text-gray-300">
           Collaborate with writers around the world and create amazing stories
           together
         </p>
