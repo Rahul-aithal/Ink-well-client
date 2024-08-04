@@ -113,9 +113,9 @@ function NavBar({ className }) {
       {isSignined ? (
         <Button className={"rounded-xl h-10 w-full"}>Log Out</Button>
       ) : (
-        <div>
-          <Button to={"/sign-in"} className={"rounded-xl h-10 w-full"}>Sing In</Button>
-          <Button to={"/sign-up"} className={"rounded-xl h-10 w-full"}>Sign Up</Button>
+        <div className="flex ">
+          <Button to={"/sign-in"} className={"rounded-2xl h-10  w-16 text-xs  my-0 mx-1"}>Sing In</Button>
+          <Button to={"/sign-up"} className={"rounded-2xl h-10 w-16 text-xs   my-0 mx-1"}>Sign Up</Button>
         </div>
       )}
     </div>
