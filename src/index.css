@@ -7,3 +7,33 @@
 body {
     font-family: 'Inter';
 }
+
+
+/* Scrollbar Width (for vertical scrollbar) */
+::-webkit-scrollbar {
+  width: 10px; /* Vertical scrollbar width */
+  height: 10px; /* Horizontal scrollbar height */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #959595; /* Track color */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: #171717; /* Handle color */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #1b1b1b;  /* Handle color on hover */
+}
+
+::-webkit-scrollbar-corner {
+    background-color: #959595;
+  }
+  
+  ::-webkit-scrollbar-track-piece:horizontal{
+    background: #000;
+  }
