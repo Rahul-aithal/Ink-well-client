@@ -12,11 +12,11 @@ const Dropdown = ({ heading, options,isIconRequired=false }) => {
   };
 
   return (
-    <div className="relative inline-block text-left "  onClick={handleOnMouseLeave}>
+    <div className="relative inline-block text-left " onMouseEnter={handleOnMouseEnter}  onMouseLeave={handleOnMouseLeave}>
       <div>
         <button
-          onMouseEnter={handleOnMouseEnter}
-        
+          
+          // 
           
           className="inline-flex justify-center items-center w-full rounded-md   shadow-sm px-4 py-2 bg-transparent text-sm font-medium text-gray-700 dark:text-gray-50 dark:hover:bg-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-none"
           type="button"
@@ -38,9 +38,9 @@ const Dropdown = ({ heading, options,isIconRequired=false }) => {
         />
         </svg>}
         </button>
-      </div>
+     
       {isOpen && (
-        <div className="origin-top-right absolute left-0 right-0  mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-black ring-1 ring-black ring-opacity-5"
+        <div className="top-7 absolute left-0 right-0  mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-zinc-800 ring-1 ring-black ring-opacity-5 opacity-90"
         onMouseEnter={handleOnMouseEnter}
         onMouseLeave={handleOnMouseLeave}>
           <div
@@ -54,7 +54,7 @@ const Dropdown = ({ heading, options,isIconRequired=false }) => {
                 <Link
                 key={option.title}
                   to={option.to}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900  dark:hover:text-black  dark:text-gray-200"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 hover:text-gray-900  dark:hover:text-black  dark:text-gray-200"
                   role="menuitem"
                   
                 >
@@ -64,6 +64,7 @@ const Dropdown = ({ heading, options,isIconRequired=false }) => {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 };
