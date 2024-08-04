@@ -15,7 +15,7 @@ function App() {
 
   return (
 
-    <div className="min-h-[100dvh] dark:bg-black  dark:text-white bg-white text-black grid grid-rows-[auto_1fr_auto]">
+    <div className="min-h-[100dvh] min-w-[100dvw] dark:bg-black  dark:text-white bg-white text-black grid grid-rows-[auto_1fr_auto] ">
       <NavBar />
         <Outlet />
       <Footer />
