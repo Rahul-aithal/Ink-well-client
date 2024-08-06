@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import Button from "../components/ui/button";
+import { useNavigate } from "react-router";
+
 
 const genresOptions = [
   {
@@ -74,6 +76,8 @@ function UsresStories() {
   const [genre, setGenre] = useState("All");
   const [status, setStatus] = useState("All");
   const [stories, setStories] = useState([]);
+
+const navigate=useNavigate()
   const handleOptionClickForGener = (value) => {
     setGenre(value);
   };
@@ -104,7 +108,7 @@ function UsresStories() {
       {/* header Starts */}
 
       <header className="flex items-center justify-between px-5 py-2 sticky mb-4 z-10">
-        <h1 className="text-xl "> My Stories</h1>
+        <h1 className="text-xl font-medium  "> My Stories</h1>
         <div className="flex items-center gap-2 justify-center">
           {/* Status Starts Here*/}
           <Menu as="div" className="relative inline-block text-left">
@@ -228,6 +232,7 @@ function UsresStories() {
                 <Button
                   variant="black"
                   className="min-w-10 max-w-12 rounded-lg px-1 text-sm"
+                  onClick={()=>navigate("/edit-stories")}
                 >
                   Edit
                 </Button>

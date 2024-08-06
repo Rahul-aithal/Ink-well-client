@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Dropdown = ({ heading, options,isIconRequired=false }) => {
+const Dropdown = ({ heading, options,isIconRequired=false, handleClick=()=>{}}) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleOnMouseLeave = () => {
-    setIsOpen(false);
-  };
-  const handleOnMouseEnter = () => {
-    setIsOpen(true);
-  };
+const toggleIsopen=()=>{
+  setIsOpen(!isOpen)
+}
 
   return (
-    <div className="relative inline-block text-left " onMouseEnter={handleOnMouseEnter}  onMouseLeave={handleOnMouseLeave}>
+    <div className="relative inline-block text-left " onClick={toggleIsopen}  >
       <div>
         <button
           
@@ -41,8 +38,7 @@ const Dropdown = ({ heading, options,isIconRequired=false }) => {
      
       {isOpen && (
         <div className="top-7 absolute left-0 right-0  mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-zinc-800 ring-1 ring-black ring-opacity-5 opacity-90"
-        onMouseEnter={handleOnMouseEnter}
-        onMouseLeave={handleOnMouseLeave}>
+        >
           <div
             className="py-1"
             role="menu"
@@ -53,9 +49,10 @@ const Dropdown = ({ heading, options,isIconRequired=false }) => {
               options.map((option) => (
                 <Link
                 key={option.title}
-                  to={option.to}
+                  to={option?.to||"#"}
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 hover:text-gray-900  dark:hover:text-black  dark:text-gray-200"
                   role="menuitem"
+                  onClick={(e)=>{handleClick(e)}}
                   
                 >
                   {option.title}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Input } from "../components/ui/input";
+import { Input, LabelInputContainer } from "../components/ui/input";
 import { cn } from "../lib/utils";
+import { BottomGradient } from "../components/ui/button";
 
 function Story() {
   const [searchValue, setSearchValue] = useState("");
@@ -10,10 +11,10 @@ function Story() {
     <div className="grid grid-cols-2">
       {/* Left Side Starts */}
 
-      <div className="p-5 flex flex-col">
+      <div className="p-5 flex flex-col ">
         <h1 className="text-xl md:text-2xl ">Create or Join a Story</h1>
-        <form className="p-3 mx-5" onSubmit={handleSubmit}>
-          <h2>Start a New Story</h2>
+        <form className="p-3 mx-5 shadow-xl dark:shadow bg-zinc-300 rounded" onSubmit={handleSubmit}>
+        <h2 className="text-xl mb-5">Start a New Story</h2>
 
           <LabelInputContainer className="mb-4">
             <Input id="first-name" placeholder="Story title" type="text" />
@@ -23,7 +24,7 @@ function Story() {
               id="last-name"
               placeholder="Stroy Description"
               type="text"
-              className="h-56"
+              className="h-56 border-2 "
             />
           </LabelInputContainer>
 
@@ -41,8 +42,8 @@ function Story() {
       {/* Right Side Starts */}
 
       <div className="p-5 flex flex-col me-5">
-        <form className="p-3 mx-5">
-          <h2>Join an Existing Story</h2>
+        <form className="p-3 mx-5 my-5">
+          <h2 className="text-xl mb-5">Join an Existing Story</h2>
 
           {/* Search Button */}
           <LabelInputContainer className="mb-4">
@@ -142,19 +143,4 @@ function Story() {
 
 export default Story;
 
-const BottomGradient = () => {
-  return (
-    <>
-      <span className="group-hover/btn:opacity-100 block transition duration-500 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
-      <span className="group-hover/btn:opacity-100 blur-sm block transition duration-500 opacity-0 absolute h-px w-1/2 mx-auto -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
-    </>
-  );
-};
 
-const LabelInputContainer = ({ children, className }) => {
-  return (
-    <div className={cn("flex flex-col space-y-2 w-full", className)}>
-      {children}
-    </div>
-  );
-};

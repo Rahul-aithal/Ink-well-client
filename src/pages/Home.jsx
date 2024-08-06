@@ -59,7 +59,7 @@ export function Home() {
           Collaborate with writers around the world and create amazing stories
           together
         </p>
-        <Button className="rounded-lg text-xs h-10 my-2 py-3 w-24">
+        <Button className="rounded-lg text-xs h-10 my-2 py-3 max-w-24">
           Get Started
         </Button>
       </div>
@@ -115,9 +115,9 @@ export function Home() {
 
  
         <div className="flex gap-5">
-          <Button to={"/sign-in"} className={"rounded-2xl h-10  w-16 text-xs  my-0 mx-1"}>Sing In</Button>
+          <Button to={"/sign-in"} className={"rounded-2xl h-10 min-w-24 text-xs my-0 mx-1"}>Sing In</Button>
        
-          <Button to={"/sign-up"} className={"rounded-2xl h-10 w-16 text-xs   my-0 mx-1"}>Sign Up</Button>
+          <Button to={"/sign-up"} className={"rounded-2xl h-10 min-w-24 text-xs my-0 mx-1"}>Sign Up</Button>
         </div>
 
     </div>

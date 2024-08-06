@@ -14,10 +14,11 @@ function App() {
   }, [theme]);
 
   return (
-
-    <div className="min-h-[100dvh] min-w-[100dvw] dark:bg-black  dark:text-white bg-white text-black grid grid-rows-[auto_1fr_auto] ">
+    <div className="min-h-screen min-w-screen dark:bg-zinc-900 dark:text-white bg-zinc-100 text-black grid grid-rows-[auto_1fr_auto]">
       <NavBar />
+      <main className="flex-1">
         <Outlet />
+      </main>
       <Footer />
     </div>
   );

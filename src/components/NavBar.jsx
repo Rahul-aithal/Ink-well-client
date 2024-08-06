@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeTheme } from "../store/ThemeSlice";
 import Button from "./ui/button";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Dropdown from "./ui/dropdown";
 
 // const theme=useSelector(state=>state.theme.theme)
@@ -31,28 +31,25 @@ function NavBar({ className }) {
 
   const profileOpitons = [
     {
-      to: "/edit-profile",
-      title: "Edit profile",
-    },
-    {
-      to: "/view-users-stories",
+      to: "/your-stories",
       title: "Your stories",
     },
     {
-      to: "/user-history",
-      title: "Your works",
+      to: "/your-profile",
+      title: "Settings",
     },
   ];
   // const [active, setActive] = useState(null);
 
+  const navigate= useNavigate()
   return (
-    <div className="p-2 sticky top-0 inset-x-0  mx-auto z-50 bg-white dark:bg-black dark:border-b dark:border-gray-300 shadow-md w-screen flex justify-between items-center ">
+    <div className="p-2 sticky top-0 inset-x-0  mx-auto z-50 bg-white dark:bg-black dark:border-b dark:border-gray-300 shadow-md w-full flex justify-between items-center ">
       <Link to={"/"} className="font-medium font-inter text-xl cursor-pointer ">
         Logo
       </Link>
       <ul className="flex gap-0 items-center">
-        <NavLink
-          to="/"
+      {isSignined ? <NavLink
+          to="/dashboard"
           className={({ isActive }) =>
             `${
               isActive ? "font-bold" : "font-medium"
@@ -60,7 +57,16 @@ function NavBar({ className }) {
           }
         >
           Home
-        </NavLink>
+        </NavLink> :<NavLink
+          to="/home"
+          className={({ isActive }) =>
+            `${
+              isActive ? "font-bold" : "font-medium"
+            } cursor-pointer hover:font-bold dark:text-white px-4 py-2`
+          }
+        >
+          Home
+        </NavLink>}
         <li>
           {isSignined && (
             <Dropdown heading={"Profile"} options={profileOpitons} />
@@ -111,11 +117,11 @@ function NavBar({ className }) {
         </li>
       </ul>
       {isSignined ? (
-        <Button className={"rounded-xl h-10 w-full"}>Log Out</Button>
+        <Button className={"rounded-xl h-10 max-w-24 "} variant="empty">Log Out</Button>
       ) : (
         <div className="flex ">
-          <Button to={"/sign-in"} className={"rounded-2xl h-10  w-16 text-xs  my-0 mx-1"}>Sing In</Button>
-          <Button to={"/sign-up"} className={"rounded-2xl h-10 w-16 text-xs   my-0 mx-1"}>Sign Up</Button>
+          <Button onClick={()=>navigate("/sign-in")} className={"rounded-2xl h-10  min-w-20 w-fit text-xs  my-0 mx-1"}>Sign In</Button>
+          <Button onClick={()=>navigate("/sign-up")} className={"rounded-2xl h-10  text-xs  min-w-20 w-fit my-0 mx-1"}>Sign Up</Button>
         </div>
       )}
     </div>
