@@ -60,7 +60,7 @@ export function SignupForm() {
       // Handle successful response
       console.log("Response:", response.data);
       if (response.data.success) {
-        navigate('/sign-in')
+        navigate('/sign-in');
      
       }
       // Clear form fields and errors on success
@@ -113,6 +113,8 @@ export function SignupForm() {
             id="email"
             placeholder="projectmayhem@fc.com"
             type="email"
+            name="email"
+            autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -126,6 +128,8 @@ export function SignupForm() {
             id="password"
             placeholder="••••••••"
             type="password"
+            name="password"
+            autoComplete="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
