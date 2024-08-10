@@ -17,7 +17,7 @@ function App() {
   return (
     <div className="min-h-screen min-w-screen dark:bg-zinc-900 dark:text-white bg-zinc-100 text-black grid grid-rows-[auto_1fr_auto]">
       <NavBar />
-      <main className="md:">
+      <main className="md:py-2">
         <Outlet />
       </main>
       <Footer />
