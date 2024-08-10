@@ -12,11 +12,12 @@ function App() {
     html.classList.remove("dark", "light");
     html.classList.add(theme);
   }, [theme]);
+  
 
   return (
     <div className="min-h-screen min-w-screen dark:bg-zinc-900 dark:text-white bg-zinc-100 text-black grid grid-rows-[auto_1fr_auto]">
       <NavBar />
-      <main className="flex-1">
+      <main className="md:">
         <Outlet />
       </main>
       <Footer />
