@@ -1,26 +1,23 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import './index.css'
-import { Home } from './pages/Home.jsx';
-import { SignupForm } from './pages/SignUp.jsx';
-import { SigninForm } from './pages/SignIn.jsx';
-import store  from './store/store.js';
-import { Provider } from 'react-redux';
-import AuthProvider from './components/AuthProvider.jsx';
-import DashBorad from './pages/DashBorad.jsx';
-import Story from './pages/Story.jsx';
-import UsersStories from './pages/UsersStories.jsx';
-import EditStory from './pages/EditStory.jsx';
-import UserSettings from './pages/UserSettings.jsx';
-import AboutUs from './pages/AboutUs.jsx';
-import ContactUs from './pages/ContactUs.jsx';
-import NewsUpdates from './pages/NewsUpates.jsx';
-import ViewStory from './pages/ViewStory.jsx';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "./index.css";
+import { Home } from "./pages/Home.jsx";
+import { SignupForm } from "./pages/SignUp.jsx";
+import { SigninForm } from "./pages/SignIn.jsx";
+import store from "./store/store.js";
+import { Provider } from "react-redux";
+import AuthProvider from "./components/AuthProvider.jsx";
+import DashBorad from "./pages/DashBorad.jsx";
+import Story from "./pages/Story.jsx";
+import UsersStories from "./pages/UsersStories.jsx";
+import EditStory from "./pages/EditStory.jsx";
+import UserSettings from "./pages/UserSettings.jsx";
+import AboutUs from "./pages/AboutUs.jsx";
+import ContactUs from "./pages/ContactUs.jsx";
+import NewsUpdates from "./pages/NewsUpates.jsx";
+import ViewStory from "./pages/ViewStory.jsx";
 
 const router = createBrowserRouter([
   {
@@ -29,96 +26,91 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-     
-        element: 
-        <Home />
+
+        element: <Home />,
       },
       {
         path: "/dashboard",
-     
-        element: 
 
-        <DashBorad />
-
+        element: <DashBorad />,
       },
       {
         path: "/sign-up",
-        element:
+        element: (
           <AuthProvider authentication={false}>
-            <SignupForm /></AuthProvider>
+            <SignupForm />
+          </AuthProvider>
+        ),
       },
       {
         path: "/sign-in",
-        element:
+        element: (
           <AuthProvider authentication={false}>
             <SigninForm />
           </AuthProvider>
+        ),
       },
-    
+
       {
         path: "/create-join-story",
-        element:
-        <AuthProvider authentication={true}>
+        element: (
+          <AuthProvider authentication={true}>
             <Story />
-            </AuthProvider>
+          </AuthProvider>
+        ),
       },
       {
         path: "/view-story",
-        element:
-        <AuthProvider authentication={true}>
+        element: (
+          <AuthProvider authentication={true}>
             <ViewStory />
-            </AuthProvider>
+          </AuthProvider>
+        ),
       },
       {
         path: "/your-stories",
-        element:
-        <AuthProvider authentication={true}>
+        element: (
+          <AuthProvider authentication={true}>
             <UsersStories />
-            </AuthProvider>
+          </AuthProvider>
+        ),
       },
       {
         path: "/edit-stories",
-        element:
-        <AuthProvider authentication={true}>
+        element: (
+          <AuthProvider authentication={true}>
             <EditStory />
-            </AuthProvider>
+          </AuthProvider>
+        ),
       },
       {
         path: "/your-profile",
-        element:
-        <AuthProvider authentication={true}>
-        <UserSettings/>
-        </AuthProvider>
+        element: (
+          <AuthProvider authentication={true}>
+            <UserSettings />
+          </AuthProvider>
+        ),
       },
       {
         path: "/about-us",
-        element:
-  
-            <AboutUs />
-
+        element: <AboutUs />,
       },
       {
         path: "/contact-us",
-        element:
-
-            <ContactUs />
-
+        element: <ContactUs />,
       },
       {
         path: "/new-upadates",
-        element:
-
-            <NewsUpdates />
-
+        element: <NewsUpdates />,
       },
     ],
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);
