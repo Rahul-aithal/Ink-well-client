@@ -8,7 +8,7 @@ import { login } from "../store/AuthSlice"; // Import login action
 import { useNavigate } from "react-router";
 
 export function SigninForm() {
-  const navigate= useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -60,10 +60,21 @@ export function SigninForm() {
       setSubmissionError("");
     } catch (error) {
       // Handle error response
-      if (error.response && error.response.data) {
-        setSubmissionError(
-          error.response.data.message || "An error occurred during submission."
-        );
+      console.log( error.response.data);
+      
+      if (error.response) {
+        if (error.response.status === 401) {
+          // Handle wrong password case
+          setSubmissionError("Wrong password. Please try again.");
+        } else if (error.response.status === 409) {
+          // Handle email not found case
+          setSubmissionError("Email not found. Please check your email address.");
+        } else {
+          // Handle other errors
+          setSubmissionError(
+            error.response.data.message || "An error occurred during submission."
+          );
+        }
       } else {
         setSubmissionError("An unexpected error occurred.");
       }
@@ -88,6 +99,8 @@ export function SigninForm() {
             placeholder="projectmayhem@fc.com"
             type="email"
             value={email}
+            autoComplete="email"
+            name="email"
             onChange={(e) => setEmail(e.target.value)}
           />
           {errors.email && (
@@ -102,6 +115,8 @@ export function SigninForm() {
             placeholder="••••••••"
             type="password"
             value={password}
+            name="password"
+            autoComplete="current-password"  // Ensure correct autocomplete attribute
             onChange={(e) => setPassword(e.target.value)}
           />
           {errors.password && (
