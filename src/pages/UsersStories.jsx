@@ -1,69 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import axios from "axios";
+import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/react";
 import Button from "../components/ui/button";
 import { useNavigate } from "react-router";
 
-
 const genresOptions = [
-  {
-    genre: "All",
-  },
-  {
-    genre: "Fantasy",
-  },
-  {
-    genre: "Mystery",
-  },
-  {
-    genre: "Romance",
-  },
-  {
-    genre: "Science Fiction",
-  },
-  {
-    genre: "Adventure",
-  },
+  { genre: "All" },
+  { genre: "Fantasy" },
+  { genre: "Mystery" },
+  { genre: "Romance" },
+  { genre: "Science Fiction" },
+  { genre: "Adventure" },
 ];
-const Allstories = [
-  {
-    title: "The Enchanted Forest",
-    description:
-      "A journey into a magical forest filled with mythical creatures.",
-    genre: "Fantasy",
-    status: "draft",
-  },
-  {
-    title: "Mystery of the Lost Artifact",
-    description:
-      "A detective's quest to uncover the secrets of an ancient artifact.",
-    genre: "Mystery",
-    status: "published",
-  },
-  {
-    title: "Romantic Escapade",
-    description: "A love story that blossoms during an adventurous trip.",
-    genre: "Romance",
-    status: "editing",
-  },
-  {
-    title: "Galactic Adventures",
-    description: "An epic space journey through uncharted galaxies.",
-    genre: "Science Fiction",
-    status: "draft",
-  },
-  {
-    title: "Love in the Time of AI",
-    description: "A romance between a human and an AI in a futuristic world.",
-    genre: "Romance",
-    status: "collaborative",
-  },
-  {
-    title: "The Fantasy Chronicles",
-    description: "A saga of heroes and villains in a fantastical realm.",
-    genre: "Fantasy",
-    status: "published",
-  },
-];
+
 const statusOptions = [
   { status: "All" },
   { status: "Draft" },
@@ -76,22 +25,47 @@ function UsresStories() {
   const [genre, setGenre] = useState("All");
   const [status, setStatus] = useState("All");
   const [stories, setStories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-const navigate=useNavigate()
-  const handleOptionClickForGener = (value) => {
+  const handleOptionClickForGenre = (value) => {
     setGenre(value);
   };
+
   const handleOptionClickForStatus = (value) => {
     setStatus(value);
   };
 
   useEffect(() => {
-    let filteredStories = Allstories;
+    const fetchStories = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await axios.get("http://localhost:8000/api/get-user-history",{ withCredentials: true});
+        if(response.data.success){
+          setStories(response.data.data.storyHistory);
+          
+        }
+      } catch (err) {
+        console.log(err);
+        
+        setError("Failed to load stories.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStories();
+  }, []);
+
+  useEffect(() => {
+    let filteredStories = stories;
 
     if (status !== "All") {
-      filteredStories = filteredStories.filter((story) => {
-        return story.status.toLowerCase() === status.toLowerCase();
-      });
+      filteredStories = filteredStories.filter((story) =>
+        story.status.toLowerCase().includes(status.toLowerCase())
+      );
     }
 
     if (genre !== "All") {
@@ -101,20 +75,19 @@ const navigate=useNavigate()
     }
 
     setStories(filteredStories);
-  }, [Allstories, genre, status]);
+  }, [genre, status, stories]);
 
   return (
     <div>
-      {/* header Starts */}
-
-      <header className="flex items-center justify-between px-5 py-2 sticky mb-4 z-10">
-        <h1 className="text-xl font-medium  "> My Stories</h1>
-        <div className="flex items-center gap-2 justify-center">
-          {/* Status Starts Here*/}
-          <Menu as="div" className="relative inline-block text-left">
-            <div className="flex items-center gap-4">
-              <h2>Status</h2>
-              <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+      {/* Header Starts */}
+      <header className="flex flex-col md:flex-row items-center justify-between px-5 py-2 sticky mb-4 z-10 shadow-sm dark:bg-gray-950 dark:text-gray-100">
+        <h1 className="text-xl font-medium">My Stories</h1>
+        <div className="flex flex-col md:flex-row items-center gap-4 mt-2 md:mt-0">
+          {/* Status Starts Here */}
+          {/* <Menu as="div" className="relative inline-block text-left ">
+            <div className="flex items-center gap-2">
+              <h2 className="hidden md:block">Status</h2>
+              <MenuButton className="inline-flex items-center gap-x-1.5 rounded-md bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 ">
                 {status ? status : "All"}
                 <div>
                   <svg
@@ -123,7 +96,7 @@ const navigate=useNavigate()
                     viewBox="0 0 24 24"
                     strokeWidth="1.5"
                     stroke="currentColor"
-                    className="size-6"
+                    className="w-5 h-5"
                   >
                     <path
                       strokeLinecap="round"
@@ -137,34 +110,30 @@ const navigate=useNavigate()
 
             <MenuItems
               transition
-              className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+              className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white dark:bg-gray-900 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none"
             >
-              <div className="py-1">
-                {statusOptions.length > 0 &&
-                  statusOptions.map((status) => (
-                    <MenuItem>
-                      <button
-                        key={status.status}
-                        type="button"
-                        onClick={() => {
-                          handleOptionClickForStatus(status.status);
-                        }}
-                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
-                      >
-                        {status.status}
-                      </button>
-                    </MenuItem>
-                  ))}
+              <div className="py-1 w-full">
+                {statusOptions.map((option) => (
+                  <MenuItem key={option.status}>
+                    <button
+                      type="button"
+                      onClick={() => handleOptionClickForStatus(option.status)}
+                      className="block w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      {option.status}
+                    </button>
+                  </MenuItem>
+                ))}
               </div>
             </MenuItems>
-          </Menu>
-          {/* Status Ends Here*/}
+          </Menu> */}
+          {/* Status Ends Here */}
 
           {/* Genre Starts Here */}
           <Menu as="div" className="relative inline-block text-left">
-            <div className="flex items-center gap-4">
-              <h2>Gener</h2>
-              <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+            <div className="flex items-center gap-2">
+              <h2 className="hidden md:block">Genre</h2>
+              <MenuButton className="inline-flex items-center gap-x-1.5 rounded-md bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700">
                 {genre ? genre : "All"}
                 <div>
                   <svg
@@ -173,7 +142,7 @@ const navigate=useNavigate()
                     viewBox="0 0 24 24"
                     strokeWidth="1.5"
                     stroke="currentColor"
-                    className="size-6"
+                    className="w-5 h-5"
                   >
                     <path
                       strokeLinecap="round"
@@ -187,58 +156,55 @@ const navigate=useNavigate()
 
             <MenuItems
               transition
-              className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+              className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white dark:bg-gray-900 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none"
             >
-              <div className="py-1">
-                {genresOptions.length > 0 &&
-                  genresOptions.map((genre, id) => (
-                    <MenuItem>
-                      <button
-                        key={id}
-                        type="button"
-                        onClick={() => {
-                          handleOptionClickForGener(genre.genre);
-                        }}
-                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
-                      >
-                        {genre.genre}
-                      </button>
-                    </MenuItem>
-                  ))}
+              <div className="py-1 w-full">
+                {genresOptions.map((option) => (
+                  <MenuItem key={option.genre}>
+                    <button
+                      type="button"
+                      onClick={() => handleOptionClickForGenre(option.genre)}
+                      className="w-full block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      {option.genre}
+                    </button>
+                  </MenuItem>
+                ))}
               </div>
             </MenuItems>
           </Menu>
-          {/* Genre Starts Here */}
+          {/* Genre Ends Here */}
         </div>
       </header>
-      {/* header Ends*/}
+      {/* Header Ends */}
 
-      {/* Story Starts */}
-      <section className="m-3 p-3 grid grid-cols-3 gap-4">
+      {/* Story Section Starts */}
+      <section className="m-3 p-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        {loading && <p>Loading stories...</p>}
+        {error && <p>{error}</p>}
         {stories.length > 0 &&
-          stories.map((storie) => (
-            <div className="max-w-96 border p-2 shadow-md flex flex-col gap-4">
-              <h1 className="text-xl">{storie.title}</h1>
-              <p className="text-sm text-gray-600 dark:text-gray-500">
-                {storie.description}
-              </p>
-              <div className="flex gap-4 items-center">
+          stories.map((story, index) => (
+            <div key={index} className="border dark:border-gray-700 p-4 rounded-md shadow-md flex flex-col gap-4 bg-white dark:bg-slate-950">
+              <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">{story.title}</h1>
+              <p className="text-sm text-gray-600 dark:text-gray-400">{story.description}</p>
+              <div className="flex flex-wrap gap-4">
                 <Button
                   variant="empty"
-                  className=" min-w-10 max-w-12 rounded-lg px-1 h-10  text-sm"
+                  className="rounded-lg px-2 h-10 text-sm w-16 md:w-28"
+                  onClick={()=>{navigate("/view-story",{state:{storyId:story._id}})}}
                 >
                   View
                 </Button>
                 <Button
                   variant="black"
-                  className="min-w-10 max-w-12 rounded-lg px-1 text-sm"
-                  onClick={()=>navigate("/edit-stories")}
+                  className="rounded-lg px-2 h-10 text-sm w-16 md:w-28"
+                  onClick={() => navigate("/edit-stories" , { state: { story  } })}
                 >
                   Edit
                 </Button>
                 <Button
                   variant="red"
-                  className="min-w-10 max-w-12 rounded-lg px-1 text-sm"
+                  className="rounded-lg px-2 h-10 text-sm w-16 md:w-28"
                 >
                   Delete
                 </Button>
@@ -246,7 +212,7 @@ const navigate=useNavigate()
             </div>
           ))}
       </section>
-      {/* Story Ends */}
+      {/* Story Section Ends */}
     </div>
   );
 }
