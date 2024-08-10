@@ -6,7 +6,7 @@ function Button({ children, className, to = "#", variant = "black",onClick }) {
   const variants = {
     empty: "inset-0 border bg-transparent text-gray-800 dark:text-gray-400 font-semibold border-4 rounded-xl border-zinc-600 w-full min-h-5 shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]  relative group/btn",
     red: "bg-gradient-to-br from-red-500 to-rose-600 text-white dark:bg-red-500 dark:text-black dark:hover:bg-rose-800 w-full h-10 shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]  relative group/btn  ",
-    black: "bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]",
+    black: "bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-950 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]",
 
   };
 

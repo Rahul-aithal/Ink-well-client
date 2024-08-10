@@ -20,6 +20,7 @@ import UserSettings from './pages/UserSettings.jsx';
 import AboutUs from './pages/AboutUs.jsx';
 import ContactUs from './pages/ContactUs.jsx';
 import NewsUpdates from './pages/NewsUpates.jsx';
+import ViewStory from './pages/ViewStory.jsx';
 
 const router = createBrowserRouter([
   {
@@ -27,12 +28,18 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: "/home",
+        path: "/",
      
         element: 
-        <AuthProvider authentication={false}>
         <Home />
-        </AuthProvider>
+      },
+      {
+        path: "/dashboard",
+     
+        element: 
+
+        <DashBorad />
+
       },
       {
         path: "/sign-up",
@@ -47,37 +54,41 @@ const router = createBrowserRouter([
             <SigninForm />
           </AuthProvider>
       },
-      {
-        path: "/dashboard",
-        element:
-     
-            <DashBorad />
     
-      },
       {
         path: "/create-join-story",
         element:
-     
+        <AuthProvider authentication={true}>
             <Story />
-    
+            </AuthProvider>
+      },
+      {
+        path: "/view-story",
+        element:
+        <AuthProvider authentication={true}>
+            <ViewStory />
+            </AuthProvider>
       },
       {
         path: "/your-stories",
         element:
-     
+        <AuthProvider authentication={true}>
             <UsersStories />
-    
+            </AuthProvider>
       },
       {
         path: "/edit-stories",
         element:
-     
+        <AuthProvider authentication={true}>
             <EditStory />
-    
+            </AuthProvider>
       },
       {
         path: "/your-profile",
-        element:<UserSettings/>
+        element:
+        <AuthProvider authentication={true}>
+        <UserSettings/>
+        </AuthProvider>
       },
       {
         path: "/about-us",
