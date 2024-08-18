@@ -270,6 +270,7 @@ function EditStory() {
               setSearchForOwners(e.target.value);
             }}
             type="text"
+            disabled
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 // Handle the Enter key press
