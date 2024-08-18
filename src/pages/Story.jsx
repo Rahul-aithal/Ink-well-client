@@ -1,25 +1,78 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input, LabelInputContainer } from "../components/ui/input";
 import { BottomGradient } from "../components/ui/button";
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 function Story() {
   // State for managing input values
   const [searchValue, setSearchValue] = useState(""); // Search input value
+  const [errorValue, setErrorValue] = useState("");
+  const [lodaing, setLoading] = useState("");
+  const [searchedStories, setSearchedStories] = useState([]);
   const [title, setTitle] = useState(""); // Story title input value
   const [description, setDescription] = useState(""); // Story description input value
 
   const navigate = useNavigate(); // Hook for navigation
 
+  // Fetch stories on seraching in searchBox
+  useEffect(() => {
+    const fetchStories = async (
+      search,
+      limit = 10,
+      sortBy = "title",
+      sortType = "asc",
+      username = ""
+    ) => {
+      try {
+        setLoading(true);
+        const params = { search, limit, sortBy, sortType };
+        if (username) {
+          params[username] = username;
+        }
+        search.length === 0 ? (params.search = "all") : "";
+
+        const response = await axios.get(
+          "http://localhost:8000/api/get-all-story",
+          {
+            params, // Data sent as query parameters
+            withCredentials: true,
+          }
+        );
+
+        if (response.data.success) {
+          console.log(response.data.data.stories);
+
+          setSearchedStories(response.data.data.stories);
+        }
+      } catch (error) {
+        console.error(error.response);
+        setErrorValue(`Something went wrong in searching`);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStories(searchValue);
+  }, [searchValue]);
+  useEffect(() => {}, [searchedStories]);
+
+  //Fetch stories form api.
+
   // Handle form submission to create a new story
   const handleCreateStory = () => {
-    if(!title||!description) return alert("title and description is required")
-    navigate('/edit-stories', { state: { title, description,newStory:true } }); // Navigate to edit-stories with title and description
+    if (!title || !description)
+      return alert("title and description is required");
+    navigate("/edit-stories", {
+      state: { title, description, newStory: true },
+    }); // Navigate to edit-stories with title and description
   };
 
   // Handle the action to join an existing story (currently empty)
-  const handleJoinStory = () => {
-    // Logic for joining a story would go here
+  const handleJoinStory = (story) => {
+    console.log(story);
+
+    navigate("/edit-stories", { state: { story: story } });
   };
 
   return (
@@ -90,27 +143,34 @@ function Story() {
           {/* Available Stories List */}
           <h1 className="text-xl mb-3">Available Stories:</h1>
           <div className="max-h-[25rem] overflow-y-scroll">
-            {Array.from({ length: 4 }).map((_, index) => (
-              <div
-                key={index}
-                className="dark:bg-zinc-800 bg-zinc-300 p-3 rounded-xl mt-3"
-              >
-                <div className="m-2 mb-5">
-                  <h1 className="text-xl">The Lost Treasure</h1>
-                  <p className="text-gray-500 text-sm">
-                    An adventure about finding hidden treasures
-                  </p>
-                </div>
-                <button
-                  className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-xl h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] text-center"
-                  type="button"
-                  onClick={handleJoinStory} // Handle join story
+            {lodaing && <div className="text-xl ">Loding...</div>}
+            {errorValue && <div>{errorValue}</div>}
+            {!lodaing &&
+              !errorValue &&
+              searchedStories.length > 0 &&
+              searchedStories.map((story) => (
+                <div
+                  key={story._id}
+                  className="dark:bg-zinc-800 bg-zinc-300 p-3 rounded-xl mt-3"
                 >
-                  Join Story &rarr;
-                  <BottomGradient />
-                </button>
-              </div>
-            ))}
+                  <div className="m-2 mb-5">
+                    <h1 className="text-xl">{story.title}</h1>
+                    <p className="text-gray-500 text-sm">{story.description}</p>
+                    <p className="text-gray-500 text-sm">
+                      Genre:{" "}
+                      <span className="text-md font-bold ">{story.genre}</span>
+                    </p>
+                  </div>
+                  <button
+                    className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-xl h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] text-center"
+                    type="button"
+                    onClick={() => handleJoinStory(story)} // Handle join story
+                  >
+                    Join Story &rarr;
+                    <BottomGradient />
+                  </button>
+                </div>
+              ))}
           </div>
         </form>
       </div>
