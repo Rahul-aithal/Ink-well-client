@@ -40,7 +40,7 @@ export function Home() {
   const navigate = useNavigate();
   const InfiniteReviews = useMemo(
     () => (
-      <div className="h-[40rem] rounded-md flex flex-col antialiased bg-white dark:bg-transparent dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden ">
+      <div className="w-[20rem] md:w-full h-[40rem] rounded-md flex flex-col antialiased bg-white dark:bg-transparent dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden ">
         <InfiniteMovingCards
           items={testimonials}
           direction="right"
@@ -78,8 +78,34 @@ export function Home() {
         <h1 className="text-lg md:text-xl font-extrabold text-center md:text-left">
           Featured Stories
         </h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 place-items-center">
-          <div className="bg-zinc-300 dark:bg-zinc-800 flex flex-col items-start p-5 rounded m-2 mx-3 w-full md:w-[20rem] transition-transform ease-linear transform hover:scale-110">
+        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-2 place-items-center">
+          <div className="bg-zinc-300 dark:bg-zinc-800 flex flex-col items-start p-5 rounded m-2 mx-3 w-[15rem] md:w-[20rem] transition-transform ease-linear transform hover:scale-110">
+            <img
+              src="https://as1.ftcdn.net/v2/jpg/05/97/13/72/1000_F_597137243_yYnmzSNL0GdyXznPSii44wR3DvQjX7sd.jpg"
+              alt="The Last Dragon of Eldoria"
+              className="w-full h-48 object-cover rounded-t"
+            />
+            <h1 className="font-extrabold mt-2">The Last Dragon of Eldoria</h1>
+            <p className="text-xs font-light text-gray-700 dark:text-gray-400 mt-1">
+              A solitary dragon's journey reveals hidden truths that could alter
+              his world forever. Embark on an epic adventure filled with magic
+              and peril.
+            </p>
+          </div>
+          <div className="bg-zinc-300 dark:bg-zinc-800 flex flex-col items-start p-5 rounded m-2 mx-3 w-[15rem] md:w-[20rem] transition-transform ease-linear transform hover:scale-110">
+            <img
+              src="https://as1.ftcdn.net/v2/jpg/05/97/13/72/1000_F_597137243_yYnmzSNL0GdyXznPSii44wR3DvQjX7sd.jpg"
+              alt="The Last Dragon of Eldoria"
+              className="w-full h-48 object-cover rounded-t"
+            />
+            <h1 className="font-extrabold mt-2">The Last Dragon of Eldoria</h1>
+            <p className="text-xs font-light text-gray-700 dark:text-gray-400 mt-1">
+              A solitary dragon's journey reveals hidden truths that could alter
+              his world forever. Embark on an epic adventure filled with magic
+              and peril.
+            </p>
+          </div>
+          <div className="bg-zinc-300 dark:bg-zinc-800 flex flex-col items-start p-5 rounded m-2 mx-3 w-[15rem] md:w-[20rem] transition-transform ease-linear transform hover:scale-110">
             <img
               src="https://as1.ftcdn.net/v2/jpg/05/97/13/72/1000_F_597137243_yYnmzSNL0GdyXznPSii44wR3DvQjX7sd.jpg"
               alt="The Last Dragon of Eldoria"
@@ -93,25 +119,6 @@ export function Home() {
             </p>
           </div>
 
-          {/* Example of smaller card */}
-          <div className="bg-gray-200 dark:bg-zinc-800 flex flex-col items-start p-2 rounded m-2 w-full md:w-[20rem]">
-            <img
-              src="https://via.placeholder.com/150"
-              alt="Placeholder Image"
-              className="w-full h-32 object-cover rounded-t"
-            />
-            <h1 className="font-bold mt-2">Heading</h1>
-            <p className="text-sm">Description</p>
-          </div>
-          <div className="bg-gray-200 dark:bg-zinc-800 flex flex-col items-start p-2 rounded m-2 w-full md:w-[20rem]">
-            <img
-              src="https://via.placeholder.com/150"
-              alt="Placeholder Image"
-              className="w-full h-32 object-cover rounded-t"
-            />
-            <h1 className="font-bold mt-2">Heading</h1>
-            <p className="text-sm">Description</p>
-          </div>
         </div>
       </div>
       {/* Stories Preview Ends */}
