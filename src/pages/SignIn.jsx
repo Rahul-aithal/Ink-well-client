@@ -37,7 +37,7 @@ export function SigninForm() {
       const formData = { email, password };
 
       const response = await axios.post(
-        "http://localhost:8000/api/sign-in",
+        "https://ink-well-server.onrender.com/api/sign-in",
         formData,
         {
           headers: {
@@ -60,19 +60,22 @@ export function SigninForm() {
       setSubmissionError("");
     } catch (error) {
       // Handle error response
-      console.log( error.response.data);
-      
+      console.log(error.response.data);
+
       if (error.response) {
         if (error.response.status === 401) {
           // Handle wrong password case
           setSubmissionError("Wrong password. Please try again.");
         } else if (error.response.status === 409) {
           // Handle email not found case
-          setSubmissionError("Email not found. Please check your email address.");
+          setSubmissionError(
+            "Email not found. Please check your email address."
+          );
         } else {
           // Handle other errors
           setSubmissionError(
-            error.response.data.message || "An error occurred during submission."
+            error.response.data.message ||
+              "An error occurred during submission."
           );
         }
       } else {
@@ -116,7 +119,7 @@ export function SigninForm() {
             type="password"
             value={password}
             name="password"
-            autoComplete="current-password"  // Ensure correct autocomplete attribute
+            autoComplete="current-password" // Ensure correct autocomplete attribute
             onChange={(e) => setPassword(e.target.value)}
           />
           {errors.password && (

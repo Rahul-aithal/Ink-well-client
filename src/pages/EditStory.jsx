@@ -50,7 +50,7 @@ function EditStory() {
       setOwners(story.owners); // Set the owners
     }
 
-    if (title||newStory) {
+    if (title || newStory) {
       setTitle(title);
       genreRef.current.removeAttribute("disabled"); // Enable the genre input field if title is set
       ownerSearcRef.current.removeAttribute("disabled");
@@ -61,7 +61,7 @@ function EditStory() {
     console.log(searchForOwners.trim());
     try {
       const response = await axios.get(
-        ` http://localhost:8000/api/get-user-by-username?username=${searchForOwners
+        ` https://ink-well-server.onrender.com/api/get-user-by-username?username=${searchForOwners
           .trim()
           .toLowerCase()}`,
         {
@@ -106,7 +106,7 @@ function EditStory() {
         // Update the title only if it has changed
         if (title && title !== originalTitle) {
           const titleResponse = await axios.put(
-            `http://localhost:8000/api/update-story-title/${storyId}`,
+            `https://ink-well-server.onrender.com/api/update-story-title/${storyId}`,
             { title },
             config
           );
@@ -118,7 +118,7 @@ function EditStory() {
         // Update the story content only if it has changed
         if (story && story !== originalStory) {
           const storyResponse = await axios.put(
-            ` http://localhost:8000/api/update-story/${storyId}`,
+            ` https://ink-well-server.onrender.com/api/update-story/${storyId}`,
             { newStory: story },
             config
           );
@@ -133,7 +133,7 @@ function EditStory() {
         const owners = newOwners.map((owner) => owner.username);
         try {
           const response = await axios.post(
-            "http://localhost:8000/api/write-story",
+            "https://ink-well-server.onrender.com/api/write-story",
             { title, description, story, genre, isEditable, owners },
             { withCredentials: true }
           );
@@ -145,10 +145,9 @@ function EditStory() {
         } catch (error) {
           if (error.response.status === 400) {
             alert("Title,Description,Story,Genre all are required");
-            return 
+            return;
           }
           console.log(error.response);
-          
         }
       }
 

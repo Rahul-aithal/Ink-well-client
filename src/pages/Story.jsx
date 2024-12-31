@@ -33,7 +33,7 @@ function Story() {
         search.length === 0 ? (params.search = "all") : "";
 
         const response = await axios.get(
-          "http://localhost:8000/api/get-all-story",
+          "https://ink-well-server.onrender.com/api/get-all-story",
           {
             params, // Data sent as query parameters
             withCredentials: true,

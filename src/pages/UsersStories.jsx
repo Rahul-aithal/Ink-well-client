@@ -46,7 +46,7 @@ function UserStories() {
         setLoading(true);
         setError(null);
         const response = await axios.get(
-          "http://localhost:8000/api/get-user-history",
+          "https://ink-well-server.onrender.com/api/get-user-history",
           { withCredentials: true }
         );
 

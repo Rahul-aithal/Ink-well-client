@@ -8,7 +8,7 @@ import { login } from "../store/AuthSlice";
 import { useNavigate } from "react-router";
 
 export function SignupForm() {
-  const navigate= useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
@@ -41,13 +41,13 @@ export function SignupForm() {
 
     try {
       const formData = {
-        username:userName,
+        username: userName,
         email,
         password,
       };
 
       const response = await axios.post(
-        "http://localhost:8000/api/sign-up",
+        "https://ink-well-server.onrender.com/api/sign-up",
         formData,
         {
           headers: {
@@ -60,8 +60,7 @@ export function SignupForm() {
       // Handle successful response
       console.log("Response:", response.data);
       if (response.data.success) {
-        navigate('/sign-in');
-     
+        navigate("/sign-in");
       }
       // Clear form fields and errors on success
       setUserName("");

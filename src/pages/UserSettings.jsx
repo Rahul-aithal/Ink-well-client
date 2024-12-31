@@ -26,9 +26,12 @@ function UserSettings() {
     // Fetch current user data
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/get-user", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          "https://ink-well-server.onrender.com/api/get-user",
+          {
+            withCredentials: true,
+          }
+        );
         if (response.data.success) {
           setUser(response.data.data);
           setUsername(response.data.data.username);
@@ -45,7 +48,7 @@ function UserSettings() {
   const handleUpdateUsername = async () => {
     try {
       const response = await axios.put(
-        "http://localhost:8000/api/update-username",
+        "https://ink-well-server.onrender.com/api/update-username",
         { username: inputRefName.current.value },
         { withCredentials: true }
       );
@@ -62,7 +65,7 @@ function UserSettings() {
   const handleUpdateEmail = async () => {
     try {
       const response = await axios.put(
-        "http://localhost:8000/api/update-email",
+        "https://ink-well-server.onrender.com/api/update-email",
         { email: inputRefEmail.current.value },
         { withCredentials: true }
       );
@@ -138,7 +141,7 @@ function UserSettings() {
     e.preventDefault();
     try {
       await axios.put(
-        "http://localhost:8000/api/update-password",
+        "https://ink-well-server.onrender.com/api/update-password",
         { oldpassword: currentPassword, newPassword },
         { withCredentials: true }
       );
