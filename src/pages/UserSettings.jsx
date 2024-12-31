@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import  { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Button from "../components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,7 +18,7 @@ function UserSettings() {
   const [isChangingPassword, setIsChangingPassword] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [user, setUser] = useState({ username: "", email: "" });
+  
 
   useEffect(() => {
     setIsChecked(theme === "dark");
@@ -33,7 +33,6 @@ function UserSettings() {
           }
         );
         if (response.data.success) {
-          setUser(response.data.data);
           setUsername(response.data.data.username);
           setEmail(response.data.data.email);
         }

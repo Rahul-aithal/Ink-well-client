@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 const AboutUs = () => {
   return (
@@ -19,7 +19,7 @@ const AboutUs = () => {
             For <strong>Ink Well</strong>, we utilized the <strong>MERN</strong> stack—MongoDB, Express.js, React.js, and Node.js—to create a robust and scalable application. Our choice of technology ensures that the application is both efficient and responsive, providing a seamless user experience.
           </p>
           <p className="mb-2">
-            In addition, we incorporated <strong>Tailwind CSS</strong> for styling. Tailwind's utility-first approach allowed us to design a modern and visually appealing interface with ease. It helped us maintain consistency across the application and ensured that the design is both functional and aesthetically pleasing.
+            In addition, we incorporated <strong>Tailwind CSS</strong> for styling. Tailwind&apos;s utility-first approach allowed us to design a modern and visually appealing interface with ease. It helped us maintain consistency across the application and ensured that the design is both functional and aesthetically pleasing.
           </p>
           <p className="mb-2">
             To enhance the user interface further, we integrated <strong>Accertinity UI</strong>. This UI library provided us with a range of components and design patterns that helped us create a polished and user-friendly experience.

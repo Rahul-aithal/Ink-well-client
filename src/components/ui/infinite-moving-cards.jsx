@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "../../lib/utils";
 
 export const InfiniteMovingCards = ({
@@ -12,12 +12,6 @@ export const InfiniteMovingCards = ({
   const scrollerRef = useRef(null);
   const [start, setStart] = useState(false);
 
-  useEffect(() => {
-    if (containerRef.current && scrollerRef.current) {
-      addAnimation();
-    }
-  }, [direction, speed]); // Re-run effect when direction or speed changes
-
   const addAnimation = () => {
     const scrollerContent = Array.from(scrollerRef.current.children);
 
@@ -29,6 +23,11 @@ export const InfiniteMovingCards = ({
     setAnimationProperties();
     setStart(true);
   };
+  useEffect(() => {
+    if (containerRef.current && scrollerRef.current) {
+      addAnimation();
+    }
+  }, [direction, speed]); // Re-run effect when direction or speed changes
 
   const setAnimationProperties = () => {
     if (containerRef.current) {

@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import axios from "axios"; // Ensure axios is imported
 import { Label } from "../components/ui/label";
 import { Input, LabelInputContainer } from "../components/ui/input";
 import { BottomGradient } from "../components/ui/button";
 import { useDispatch } from "react-redux";
-import { login } from "../store/AuthSlice";
 import { useNavigate } from "react-router";
 
 export function SignupForm() {

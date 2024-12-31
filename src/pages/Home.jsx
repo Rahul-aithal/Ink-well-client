@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import  { useMemo } from "react";
 import Button from "../components/ui/button";
 import { InfiniteMovingCards } from "../components/ui/infinite-moving-cards";
 import { useNavigate } from "react-router";

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import  { useEffect, useRef, useState } from "react";
 import { Label } from "../components/ui/label";
 import { Input, LabelInputContainer } from "../components/ui/input";
 import Button from "../components/ui/button";
@@ -55,7 +55,7 @@ function EditStory() {
       genreRef.current.removeAttribute("disabled"); // Enable the genre input field if title is set
       ownerSearcRef.current.removeAttribute("disabled");
     }
-  }, []);
+  }, );
 
   const handleSearchForOwners = async () => {
     console.log(searchForOwners.trim());

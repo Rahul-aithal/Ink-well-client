@@ -1,7 +1,7 @@
 
 
 
-function Button({ children, className, to = "#", variant = "black",onClick }) {
+function Button({ children, className, variant = "black",onClick }) {
 
   const variants = {
     empty: "inset-0 border bg-transparent text-gray-800 dark:text-gray-400 font-semibold border-4 rounded-xl border-zinc-600 w-full min-h-5 shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]  relative group/btn",

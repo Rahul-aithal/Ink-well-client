@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import  {  useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeTheme } from "../store/ThemeSlice";
 import Button from "./ui/button";
@@ -8,7 +8,7 @@ import Dropdown from "./ui/dropdown";
 import { logout } from "../store/AuthSlice";
 import axios from "axios";
 
-function NavBar({ className }) {
+function NavBar() {
   const theme = useSelector((state) => state.theme.theme);
   const isSignined = useSelector((state) => state.auth.status);
 

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { TypewriterEffectSmooth } from './ui/typewriter-effect';
 
 export function TypewriterEffectSmoothDemo() {
