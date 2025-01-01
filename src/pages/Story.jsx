@@ -3,6 +3,7 @@ import { Input, LabelInputContainer } from "../components/ui/input";
 import { BottomGradient } from "../components/ui/button";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import { getAllStories } from "../apis/story";
 
 function Story() {
   // State for managing input values
@@ -32,13 +33,7 @@ function Story() {
         }
         search.length === 0 ? (params.search = "all") : "";
 
-        const response = await axios.get(
-          "https://ink-well-server.onrender.com/api/get-all-story",
-          {
-            params, // Data sent as query parameters
-            withCredentials: true,
-          }
-        );
+        const response = await getAllStories(params);
 
         if (response.data.success) {
           console.log(response.data.data.stories);

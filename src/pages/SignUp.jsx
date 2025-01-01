@@ -5,6 +5,7 @@ import { Input, LabelInputContainer } from "../components/ui/input";
 import { BottomGradient } from "../components/ui/button";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import { signUp } from "../apis/auth";
 
 export function SignupForm() {
   const navigate = useNavigate();
@@ -45,16 +46,7 @@ export function SignupForm() {
         password,
       };
 
-      const response = await axios.post(
-        "https://ink-well-server.onrender.com/api/sign-up",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await signUp(formData);
 
       // Handle successful response
       console.log("Response:", response.data);

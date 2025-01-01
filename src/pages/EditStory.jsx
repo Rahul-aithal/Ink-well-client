@@ -1,9 +1,11 @@
-import  { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Label } from "../components/ui/label";
 import { Input, LabelInputContainer } from "../components/ui/input";
 import Button from "../components/ui/button";
 import { useLocation, useNavigate } from "react-router";
 import axios from "axios";
+import { getUserByUsername } from "../apis/user";
+import { updateStory, updateStoryTitle, writeStory } from "../apis/story";
 
 function EditStory() {
   // State to store the story content
@@ -55,19 +57,12 @@ function EditStory() {
       genreRef.current.removeAttribute("disabled"); // Enable the genre input field if title is set
       ownerSearcRef.current.removeAttribute("disabled");
     }
-  }, );
+  });
 
   const handleSearchForOwners = async () => {
     console.log(searchForOwners.trim());
     try {
-      const response = await axios.get(
-        ` https://ink-well-server.onrender.com/api/get-user-by-username?username=${searchForOwners
-          .trim()
-          .toLowerCase()}`,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await getUserByUsername(searchForOwners.trim());
       if (response.data.success) {
         const newUsers = response.data.data;
         setNewOwners((prev) => {
@@ -105,11 +100,7 @@ function EditStory() {
 
         // Update the title only if it has changed
         if (title && title !== originalTitle) {
-          const titleResponse = await axios.put(
-            `https://ink-well-server.onrender.com/api/update-story-title/${storyId}`,
-            { title },
-            config
-          );
+          const titleResponse = await updateStoryTitle(storyId, title);
           if (titleResponse.status !== 200) {
             throw new Error("Failed to update title");
           }
@@ -117,11 +108,7 @@ function EditStory() {
 
         // Update the story content only if it has changed
         if (story && story !== originalStory) {
-          const storyResponse = await axios.put(
-            ` https://ink-well-server.onrender.com/api/update-story/${storyId}`,
-            { newStory: story },
-            config
-          );
+          const storyResponse = await updateStory(storyId, story);
           if (storyResponse.status !== 200) {
             throw new Error("Failed to update story");
           }
@@ -132,11 +119,14 @@ function EditStory() {
         const description = location.state?.description;
         const owners = newOwners.map((owner) => owner.username);
         try {
-          const response = await axios.post(
-            "https://ink-well-server.onrender.com/api/write-story",
-            { title, description, story, genre, isEditable, owners },
-            { withCredentials: true }
-          );
+          const response = await writeStory({
+            title,
+            description,
+            story,
+            genre,
+            isEditable,
+            owners,
+          });
           if (response.data.success) {
             console.log(response.data.data);
             genreRef.current.setAttribute("disabled", ""); // Disable the genre input field

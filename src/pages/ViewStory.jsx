@@ -1,6 +1,6 @@
-import  { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { getStoryById } from "../apis/story";
 
 function ViewStory() {
   const location = useLocation();
@@ -13,12 +13,7 @@ function ViewStory() {
       try {
         console.log(storyId);
 
-        const response = await axios.get(
-          `https://ink-well-server.onrender.com/api/get-story-by-id/${storyId}`,
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await getStoryById(storyId);
         if (response.data.success) {
           setStory(response.data.data);
         }

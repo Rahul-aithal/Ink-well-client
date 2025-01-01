@@ -3,6 +3,7 @@ import axios from "axios";
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/react";
 import Button from "../components/ui/button";
 import { useNavigate } from "react-router";
+import { getUserHistory } from "../apis/user";
 
 const genreOptions = [
   { genre: "All" },
@@ -45,10 +46,7 @@ function UserStories() {
       try {
         setLoading(true);
         setError(null);
-        const response = await axios.get(
-          "https://ink-well-server.onrender.com/api/get-user-history",
-          { withCredentials: true }
-        );
+        const response = await getUserHistory();
 
         if (response.data.success) {
           setStories(response.data.data.storyHistory);

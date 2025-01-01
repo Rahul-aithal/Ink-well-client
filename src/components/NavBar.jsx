@@ -7,6 +7,7 @@ import Dropdown from "./ui/dropdown";
 
 import { logout } from "../store/AuthSlice";
 import axios from "axios";
+import { signOut } from "../apis/auth";
 
 function NavBar() {
   const theme = useSelector((state) => state.theme.theme);
@@ -43,11 +44,7 @@ function NavBar() {
   const navigate = useNavigate();
 
   const handleLogut = async () => {
-    const res = await axios.post(
-      "https://ink-well-server.onrender.com/api/sign-out",
-      {},
-      { withCredentials: true }
-    );
+    const res =await signOut();
 
     if (res.data.success && res.status === 200) {
       navigate("/sign-in");

@@ -1,10 +1,11 @@
-import  { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Button from "../components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { changeTheme } from "../store/ThemeSlice";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
+import { getUser, updateEmail, updatePassword, updateUsername } from "../apis/user";
 
 function UserSettings() {
   const theme = useSelector((state) => state.theme.theme);
@@ -18,7 +19,6 @@ function UserSettings() {
   const [isChangingPassword, setIsChangingPassword] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  
 
   useEffect(() => {
     setIsChecked(theme === "dark");
@@ -26,12 +26,7 @@ function UserSettings() {
     // Fetch current user data
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(
-          "https://ink-well-server.onrender.com/api/get-user",
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await getUser();
         if (response.data.success) {
           setUsername(response.data.data.username);
           setEmail(response.data.data.email);
@@ -46,11 +41,8 @@ function UserSettings() {
 
   const handleUpdateUsername = async () => {
     try {
-      const response = await axios.put(
-        "https://ink-well-server.onrender.com/api/update-username",
-        { username: inputRefName.current.value },
-        { withCredentials: true }
-      );
+      const username = inputRefName.current.value;
+      const response = await updateUsername(username);
       if (response.data.succes) {
         alert("Username updated successfully!");
         inputRefName.current.setAttribute("disabled", true);
@@ -63,11 +55,8 @@ function UserSettings() {
 
   const handleUpdateEmail = async () => {
     try {
-      const response = await axios.put(
-        "https://ink-well-server.onrender.com/api/update-email",
-        { email: inputRefEmail.current.value },
-        { withCredentials: true }
-      );
+      const email = inputRefEmail.current.value;
+      const response = await updateEmail(email);
       if (response.data.success) {
         alert("Email updated successfully!");
         inputRefEmail.current.setAttribute("disabled", true);
@@ -139,11 +128,7 @@ function UserSettings() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(
-        "https://ink-well-server.onrender.com/api/update-password",
-        { oldpassword: currentPassword, newPassword },
-        { withCredentials: true }
-      );
+      await updatePassword(currentPassword, newPassword);
       alert("Password updated successfully!");
       setCurrentPassword("");
       setNewPassword("");
