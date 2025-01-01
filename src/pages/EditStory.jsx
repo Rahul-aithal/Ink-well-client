@@ -45,7 +45,6 @@ function EditStory() {
     const newStory = location.state?.newStory;
 
     if (story) {
-      console.log(story);
       setStory(story.story); // Set the story content
       setTitle(story.title); // Set the title
       setGenre(story.genre); // Set the genre
@@ -77,9 +76,7 @@ function EditStory() {
           return [...prev, ...filteredUsers];
         });
       }
-    } catch (error) {
-      console.log(error.message);
-    }
+    } catch (error) {}
   };
 
   // Function to handle the save operation for the story
@@ -128,7 +125,6 @@ function EditStory() {
             owners,
           });
           if (response.data.success) {
-            console.log(response.data.data);
             genreRef.current.setAttribute("disabled", ""); // Disable the genre input field
             ownerSearcRef.current.setAttribute("disabled", ""); // Disable the genre input field
           }
@@ -137,13 +133,11 @@ function EditStory() {
             alert("Title,Description,Story,Genre all are required");
             return;
           }
-          console.log(error.response);
         }
       }
 
       navigate("/your-stories"); // Navigate to the "your stories" page
     } catch (error) {
-      console.log("Error saving story:", error);
       alert("An error occurred while saving the story.");
     }
   };

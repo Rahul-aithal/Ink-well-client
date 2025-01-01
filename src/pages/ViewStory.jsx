@@ -11,8 +11,6 @@ function ViewStory() {
   useEffect(() => {
     const fetchStory = async () => {
       try {
-        console.log(storyId);
-
         const response = await getStoryById(storyId);
         if (response.data.success) {
           setStory(response.data.data);

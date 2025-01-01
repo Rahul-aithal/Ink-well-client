@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/react";
 import Button from "../components/ui/button";
@@ -52,7 +52,6 @@ function UserStories() {
           setStories(response.data.data.storyHistory);
         }
       } catch (err) {
-        console.log(err);
         setError("Failed to load stories.");
       } finally {
         setLoading(false);

@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import axios from "axios"; // Ensure axios is imported
 import { Label } from "../components/ui/label";
 import { Input, LabelInputContainer } from "../components/ui/input";
@@ -49,7 +49,7 @@ export function SignupForm() {
       const response = await signUp(formData);
 
       // Handle successful response
-      console.log("Response:", response.data);
+
       if (response.data.success) {
         navigate("/sign-in");
       }

@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Input, LabelInputContainer } from "../components/ui/input";
 import { BottomGradient } from "../components/ui/button";
 import { useNavigate } from "react-router";
@@ -36,8 +36,6 @@ function Story() {
         const response = await getAllStories(params);
 
         if (response.data.success) {
-          console.log(response.data.data.stories);
-
           setSearchedStories(response.data.data.stories);
         }
       } catch (error) {
@@ -65,8 +63,6 @@ function Story() {
 
   // Handle the action to join an existing story (currently empty)
   const handleJoinStory = (story) => {
-    console.log(story);
-
     navigate("/edit-stories", { state: { story: story } });
   };
 

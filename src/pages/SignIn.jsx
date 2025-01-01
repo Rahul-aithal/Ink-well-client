@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { Label } from "../components/ui/label";
 import { Input, LabelInputContainer } from "../components/ui/input";
 import { BottomGradient } from "../components/ui/button";
@@ -39,7 +39,7 @@ export function SigninForm() {
       const response = await signIn(formData);
 
       // Handle successful response
-      console.log("Response:", response.data);
+
       if (response.data.success) {
         dispatch(login({ userData: response.data.user }));
         navigate("/your-stories");
@@ -51,7 +51,6 @@ export function SigninForm() {
       setSubmissionError("");
     } catch (error) {
       // Handle error response
-      console.log(error.response.data);
 
       if (error.response) {
         if (error.response.status === 401) {
