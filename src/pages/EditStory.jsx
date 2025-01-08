@@ -1,25 +1,14 @@
-import { useEffect, useRef, useState } from "react";
-import { Label } from "../components/ui/label";
-import { Input, LabelInputContainer } from "../components/ui/input";
-import Button from "../components/ui/button";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import axios from "axios";
-import { getUserByUsername } from "../apis/user";
-import { updateStory, updateStoryTitle, writeStory } from "../apis/story";
+import { getUserByUsername } from "../apis/user.js";
+import StorySettings from "../components/StorySettings.jsx";
+import ParticipantsList from "../components/ParticipantsList.jsx";
+import StoryEditor from "../components/StoryEditor.jsx";
+import OwnerSearch from "../components/OwnerSearcch.jsx";
+import { writeStory, updateStory, updateStoryTitle } from "../apis/story.js";
 
 function EditStory() {
-  // State to store the story content
   const [story, setStory] = useState("");
-
-  // Refs for handling textarea, genre,searching owners input fields
-  const textareaRef = useRef();
-  const genreRef = useRef();
-  const ownerSearcRef = useRef();
-
-  // Extracting data passed through the location state
-  const location = useLocation();
-
-  // State to store the title, genre, owners, and checkbox status
   const [title, setTitle] = useState("");
   const [genre, setGenre] = useState("");
   const [searchForOwners, setSearchForOwners] = useState("");
@@ -27,92 +16,86 @@ function EditStory() {
   const [newOwners, setNewOwners] = useState([]);
   const [isEditable, setIsEditable] = useState(true);
 
-  // Hook to navigate to different routes
+  const location = useLocation();
   const navigate = useNavigate();
 
-  // Automatically adjust the height of the textarea based on content
-  useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
-      textareaRef.current.style.height = ` ${textareaRef.current.scrollHeight}px`;
-    }
-  }, [story]);
-
-  // Load the story details from the location state if available
   useEffect(() => {
     const story = location.state?.story;
     const title = location.state?.title;
     const newStory = location.state?.newStory;
 
     if (story) {
-      setStory(story.story); // Set the story content
-      setTitle(story.title); // Set the title
-      setGenre(story.genre); // Set the genre
-      setOwners(story.owners); // Set the owners
+      setStory(story.story);
+      setTitle(story.title);
+      setGenre(story.genre);
+      setOwners(story.owners);
     }
 
     if (title || newStory) {
       setTitle(title);
-      genreRef.current.removeAttribute("disabled"); // Enable the genre input field if title is set
-      ownerSearcRef.current.removeAttribute("disabled");
     }
-  });
+  }, [location.state]);
 
   const handleSearchForOwners = async () => {
-    console.log(searchForOwners.trim());
     try {
       const response = await getUserByUsername(searchForOwners.trim());
       if (response.data.success) {
         const newUsers = response.data.data;
         setNewOwners((prev) => {
           const existingIds = new Set(prev.map((user) => user.id));
-
-          // Filter out new users that are already in the state
           const filteredUsers = newUsers.filter(
             (user) => !existingIds.has(user.id)
           );
-
-          // Add only the new users to the state
           return [...prev, ...filteredUsers];
         });
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error searching for owners:", error);
+    }
   };
 
-  // Function to handle the save operation for the story
   const handleSave = async () => {
     try {
-      const storyId = location.state?.story?._id; // Retrieve story ID from location state
+      const storyId = location.state?.story?._id;
 
       if (storyId) {
         const originalTitle = location.state?.story?.title;
         const originalStory = location.state?.story?.story;
 
-        const config = {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true, // Include credentials (cookies, tokens)
-        };
-
-        // Update the title only if it has changed
         if (title && title !== originalTitle) {
-          const titleResponse = await updateStoryTitle(storyId, title);
-          if (titleResponse.status !== 200) {
-            throw new Error("Failed to update title");
-          }
+          await updateStoryTitle(storyId, title);
         }
 
-        // Update the story content only if it has changed
         if (story && story !== originalStory) {
-          const storyResponse = await updateStory(storyId, story);
-          if (storyResponse.status !== 200) {
-            throw new Error("Failed to update story");
+          try {
+            const response = await updateStory(storyId, story);
+            if (response.status === 200) {
+              alert("Story updated successfully!");
+              navigate("/your-stories");
+            }
+          } catch (error) {
+            if (error.response.status === 400) {
+              alert("Story is required");
+              return;
+            }
+            if (error.response.status === 404) {
+              alert("Story is not found");
+              return;
+            }
+            if (error.response.status === 403) {
+              alert("Story is  not editable");
+              return;
+            }
+            if (error.response.status === 401) {
+              alert("You are not authorized to perform this action");
+              return;
+            }
+            console.log(error);
+
+            alert("An error occurred while saving the story.");
           }
         }
-        alert("Story updated successfully!");
       } else if (location.state?.newStory) {
-        // If no story ID, assume this is a new story being created
         const description = location.state?.description;
         const owners = newOwners.map((owner) => owner.username);
         try {
@@ -125,198 +108,85 @@ function EditStory() {
             owners,
           });
           if (response.data.success) {
-            genreRef.current.setAttribute("disabled", ""); // Disable the genre input field
-            ownerSearcRef.current.setAttribute("disabled", ""); // Disable the genre input field
+            alert("Story saved successfully!");
           }
+
+          navigate("/your-stories");
         } catch (error) {
           if (error.response.status === 400) {
-            alert("Title,Description,Story,Genre all are required");
+            alert("Title, Description, Story, Genre are all required");
             return;
           }
+          if (error.response.status === 409) {
+            alert("Story already exists");
+            return;
+          }
+          if (error.response.status === 401) {
+            alert("You are not authorized to perform this action");
+            return;
+          }
+          alert("An error occurred while saving the story.");
+          console.log(error);
         }
       }
-
-      navigate("/your-stories"); // Navigate to the "your stories" page
     } catch (error) {
       alert("An error occurred while saving the story.");
     }
   };
 
-  // Toggle function for the "Participants can edit" checkbox
   const handleChangeEditable = () => {
     setIsEditable((prevState) => !prevState);
   };
 
-  const handleDeleteParticipents = (userId) => {
-    setNewOwners((prev) => {
-      const currentlyAddedUser = prev.filter((user) => user._id !== userId);
-      return currentlyAddedUser;
-    });
+  const handleDeleteParticipants = (userId) => {
+    setNewOwners((prev) => prev.filter((user) => user._id !== userId));
   };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 p-2">
-      {/* Left Side: Story Settings */}
       <div className="p-3 col-span-12 lg:col-span-3 bg-transparent shadow flex flex-col items-start gap-4 rounded dark:shadow-gray-400 dark:shadow">
-        {/* Participants Section */}
-        <section className="p-2 w-full">
-          <h2 className="text-xl mb-2">Participants</h2>
-          {owners?.length > 0 &&
-            owners.map((owner) => (
-              <div
-                key={owner._id}
-                className="flex items-center gap-2 justify-start max-w-28"
-              >
+        <ParticipantsList owners={owners} />
+        <StorySettings
+          title={title}
+          setTitle={setTitle}
+          genre={genre}
+          setGenre={setGenre}
+          isEditable={isEditable}
+          handleChangeEditable={handleChangeEditable}
+        />
+        <OwnerSearch
+          searchForOwners={searchForOwners}
+          setSearchForOwners={setSearchForOwners}
+          handleSearchForOwners={handleSearchForOwners}
+        />
+        <div className="flex gap-2 flex-wrap">
+          {newOwners.map((newOwner) => (
+            <div
+              key={newOwner._id}
+              className="bg-transparent border dark:border-zinc-200 border-zinc-900 backdrop:blur p-1 rounded-full px-2 flex items-center justify-evenly gap-3 w-auto text-left"
+            >
+              {newOwner.username}
+              <button onClick={() => handleDeleteParticipants(newOwner._id)}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
                   viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="size-6 text-black dark:text-white"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6 dark:text-white"
                 >
                   <path
-                    fillRule="evenodd"
-                    d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
-                    clipRule="evenodd"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
                   />
                 </svg>
-                <p className="text-sm">{owner.username}</p>
-              </div>
-            ))}
-        </section>
-
-        {/* Story Settings Section */}
-        <section className="w-full">
-          <h1 className="text-xl mb-4">Story Settings</h1>
-          <div className="m-2 mt-5 flex flex-col gap-2">
-            <LabelInputContainer className="mb-4">
-              <Label htmlFor="title">Title</Label>
-              <Input
-                id="title"
-                placeholder="Story title"
-                value={title}
-                type="text"
-                onChange={(e) => {
-                  setTitle(e.target.value);
-                }}
-              />
-            </LabelInputContainer>
-            <LabelInputContainer className="mb-4">
-              <Label htmlFor="genre">Genre</Label>
-              <Input
-                id="genre"
-                ref={genreRef}
-                placeholder="Story genre"
-                value={genre}
-                onChange={(e) => {
-                  setGenre(e.target.value);
-                }}
-                disabled
-                type="text"
-              />
-            </LabelInputContainer>
-
-            {/* Checkbox for allowing participants to edit */}
-            <label className="flex items-center cursor-pointer m-3">
-              <span className="mr-3 ">Participants can edit</span>
-              <div className="relative transition-all ease-in-out">
-                <input
-                  type="checkbox"
-                  checked={isEditable}
-                  onChange={handleChangeEditable}
-                  className="sr-only"
-                />
-                <div
-                  className={`block w-12 h-6 rounded-full delay-100 ${
-                    isEditable ? "bg-gray-800" : "bg-gray-300"
-                  }`}
-                >
-                  <div
-                    className={`absolute left-1 top-1 delay-100 bg-white w-4 h-4 rounded-full transition-transform transform ${
-                      isEditable ? "translate-x-6" : "translate-x-0"
-                    }`}
-                  />
-                </div>
-              </div>
-            </label>
-          </div>
-        </section>
-
-        {/* Owner input field (currently not connected to any functionality) */}
-        <LabelInputContainer className="mb-4">
-          <Label htmlFor="owner">Owner</Label>
-          <Input
-            id="owner"
-            ref={ownerSearcRef}
-            placeholder="Search owners"
-            vlaue={searchForOwners}
-            onChange={(e) => {
-              setSearchForOwners(e.target.value);
-            }}
-            type="text"
-            disabled
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                // Handle the Enter key press
-                handleSearchForOwners();
-              }
-            }}
-          />
-        </LabelInputContainer>
-        <aside className="flex gap-2 flex-wrap">
-          {newOwners.length > 0 &&
-            newOwners.map((newOwner) => (
-              <div
-                key={newOwner._id}
-                className="bg-transparent border dark:border-zinc-200 border-zinc-900 backdrop:blur p-1 rounded-full px-2 flex items-center justify-evenly gap-3 w-auto text-left"
-              >
-                {newOwner.username}{" "}
-                <button onClick={() => handleDeleteParticipents(newOwner._id)}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-6 h-6 dark:text-white"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6 18 18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>{" "}
-              </div>
-            ))}
-        </aside>
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
-      {/* Left Side Ends */}
-
-      {/* Middle Section: Story Editor */}
-      <div className="col-span-12 lg:col-span-8">
-        <header className="flex items-center justify-between mb-4">
-          <h1 className="text-xl">Story Editor</h1>
-          <Button className="max-w-24" onClick={handleSave}>
-            Save
-          </Button>
-        </header>
-        <section>
-          <textarea
-            ref={textareaRef}
-            name="story"
-            id="story"
-            value={story}
-            onChange={(e) => {
-              setStory(e.target.value);
-            }}
-            placeholder="Start here..."
-            rows={18}
-            className="w-full p-4 border-2 border-gray-200 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none dark:bg-gray-800 dark:text-white dark:border-gray-600 overflow-auto"
-            style={{ overflow: "auto" }}
-          ></textarea>
-        </section>
-      </div>
-      {/* Middle Section Ends */}
+      <StoryEditor story={story} setStory={setStory} handleSave={handleSave} />
     </div>
   );
 }

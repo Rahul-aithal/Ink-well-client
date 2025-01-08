@@ -4,6 +4,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/react";
 import Button from "../components/ui/button";
 import { useNavigate } from "react-router";
 import { getUserHistory } from "../apis/user";
+import { deleteStory } from "../apis/story";
 
 const genreOptions = [
   { genre: "All" },
@@ -221,6 +222,18 @@ function UserStories() {
                 <Button
                   variant="red"
                   className="rounded-lg px-2 h-10 text-sm w-16 md:w-28"
+                  onClick={async () => {
+                    try {
+                      const response = await deleteStory({
+                        storyId: story._id,
+                      });
+                      if (response.status === 200) {
+                        window.location.reload();
+                      }
+                    } catch (error) {
+                      console.error("Failed to delete story", error);
+                    }
+                  }}
                 >
                   Delete
                 </Button>

@@ -20,3 +20,4 @@ export const updateStory = (storyId, newStory) =>
 export const writeStory = ({ title, description, story, genre, isEditable, owners }) => 
   api.post('/write-story', { title, description, story, genre, isEditable, owners });
     
+export const deleteStory = ({storyId})=> api.delete(`/delete-story/${storyId}`);
