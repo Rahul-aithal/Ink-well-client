@@ -12,9 +12,15 @@ export const getStoryById = (storyId) =>
 export const updateStoryTitle = (storyId, title) => 
   api.put(`/update-story-title/${storyId}`, { title });
 
+
+export const updateStoryDesc = (storyId, description) => 
+  api.put(`/update-story-description/${storyId}`, { description });
+
 // Update Story
 export const updateStory = (storyId, newStory) => 
   api.put(`/update-story/${storyId}`, { newStory });
+
+
 
 // Write Story
 export const writeStory = ({ title, description, story, genre, isEditable, owners }) => 
