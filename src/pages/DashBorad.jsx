@@ -1,8 +1,27 @@
-
+import { useEffect, useState } from "react";
 import Button from "../components/ui/button";
 import { useNavigate } from "react-router";
+import { getAllStories } from "../apis/story";
+
+const query = {
+  search: "all",
+  limit: 2,
+  sortBy: "title",
+  sortType: "asc",
+  username: "",
+};
 
 function DashBorad() {
+  const [topThreedStories, setTopThreedStories] = useState([]);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true);
+    getAllStories(query)
+      .then((response) => setTopThreedStories(response.data.data.stories))
+      .catch((err) => alert(err.message))
+      .finally(() => setLoading(false));
+  }, []);
+
   const navigate = useNavigate();
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4 ">
@@ -12,37 +31,38 @@ function DashBorad() {
           <h1 className="text-xl md:text-2xl">Recommended Stories</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
             {/* Story Card 1 */}
-            <div className="flex flex-col items-start p-5 rounded m-1 mx-1/3 md:m-2 md:mx-3 transition-transform ease-linear transform hover:scale-105">
-              <img
-                src="https://as1.ftcdn.net/v2/jpg/05/97/13/72/1000_F_597137243_yYnmzSNL0GdyXznPSii44wR3DvQjX7sd.jpg"
-                alt="The Last Dragon of Eldoria"
-                className="w-full h-48 object-cover rounded-xl"
-              />
-              <h1 className="font-extrabold mt-2 text-lg md:text-xl">
-                The Last Dragon of Eldoria
-              </h1>
-              <p className="text-xs font-light text-gray-700 dark:text-gray-400 mt-1">
-                A solitary dragon's journey reveals hidden truths that could
-                alter his world forever. Embark on an epic adventure filled with
-                magic and peril.
-              </p>
+            {loading ? (
+              // Simple loading message without animation
+              <div className="flex flex-col space-y-4 p-5">
+              {[...Array(2)].map((_, index) => (
+                <div
+                  key={index}
+                  className="animate-pulse bg-gray-300 dark:bg-gray-700 h-48 w-full rounded-xl"
+                />
+              ))}
             </div>
-            {/* Story Card 2 */}
-            <div className="flex flex-col items-start p-5 rounded m-2 mx-3 transition-transform ease-linear transform hover:scale-105">
-              <img
-                src="https://as1.ftcdn.net/v2/jpg/05/97/13/72/1000_F_597137243_yYnmzSNL0GdyXznPSii44wR3DvQjX7sd.jpg"
-                alt="The Last Dragon of Eldoria"
-                className="w-full h-48 object-cover rounded-lg"
-              />
-              <h1 className="font-extrabold mt-2 text-lg md:text-xl">
-                The Last Dragon of Eldoria
-              </h1>
-              <p className="text-xs font-light text-gray-700 dark:text-gray-400 mt-1">
-                A solitary dragon's journey reveals hidden truths that could
-                alter his world forever. Embark on an epic adventure filled with
-                magic and peril.
-              </p>
-            </div>
+            ) : topThreedStories.length > 0 ? (
+              topThreedStories.map((story) => (
+                <div
+                  key={story._id}
+                  className="flex flex-col items-start p-5 rounded m-1 mx-1/3 md:m-2 md:mx-3 transition-transform ease-linear transform hover:scale-105"
+                >
+                  <img
+                    src={story.avatar}
+                    alt={story.title}
+                    className="w-full h-48 object-cover rounded-xl"
+                  />
+                  <h1 className="font-extrabold mt-2 text-lg md:text-xl">
+                    {story.title}
+                  </h1>
+                  <p className="text-xs font-light text-gray-700 dark:text-gray-400 mt-1">
+                    {story.description}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-gray-500">No stories available</p>
+            )}
           </div>
         </section>
 

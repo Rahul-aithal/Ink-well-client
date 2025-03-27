@@ -1,8 +1,8 @@
 // pages/UserStories.js
 import { useEffect, useState } from "react";
 import { getUserHistory } from "../apis/user";
-import StatusDropdown from "../components/StatusDropdown"; 
-import GenreDropdown from "../components/GenreDropdown"; 
+import StatusDropdown from "../components/StatusDropdown";
+import GenreDropdown from "../components/GenreDropdown";
 import StoryCard from "../components/StoryCard";
 
 const UserStories = () => {
@@ -36,13 +36,13 @@ const UserStories = () => {
 
     if (selectedStatus !== "All") {
       filteredStories = filteredStories.filter((story) =>
-        story.status.toLowerCase().includes(selectedStatus.toLowerCase())
+        story.status?.toLowerCase().includes(selectedStatus?.toLowerCase())
       );
     }
 
     if (selectedGenre !== "All") {
       filteredStories = filteredStories.filter(
-        (story) => story.genre.toLowerCase() === selectedGenre.toLowerCase()
+        (story) => story.genre?.toLowerCase() === selectedGenre?.toLowerCase()
       );
     }
 

@@ -1,8 +1,9 @@
-import  { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Button from "../components/ui/button";
 import { InfiniteMovingCards } from "../components/ui/infinite-moving-cards";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
+import { getAllStories } from "../apis/story";
 
 const testimonials = [
   {
@@ -34,6 +35,13 @@ const testimonials = [
     title: "Musician, The Beatles",
   },
 ];
+const query = {
+  search: "all",
+  limit: 3,
+  sortBy: "title",
+  sortType: "asc",
+  username: "",
+};
 
 export function Home() {
   const isSignined = useSelector((state) => state.auth.status);
@@ -50,7 +58,15 @@ export function Home() {
     ),
     []
   );
-
+  const [topThreedStories, setTopThreedStories] = useState([]);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true);
+    getAllStories(query)
+      .then((response) => setTopThreedStories(response.data.data.stories))
+      .catch((err) => alert(err.message))
+      .finally(() => setLoading(false));
+  }, []);
   return (
     <div className="flex flex-col items-center gap-5 justify-around py-3 px-2 md:px-10">
       {/* Heading Starts  */}
@@ -75,51 +91,44 @@ export function Home() {
 
       {/* Stories Preview Starts */}
       <div className="w-full">
-        <h1 className="text-lg md:text-xl font-extrabold text-center md:text-left">
+      <h1 className="text-lg md:text-xl font-extrabold text-center md:text-left">
           Featured Stories
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-2 place-items-center">
-          <div className="bg-zinc-300 dark:bg-zinc-800 flex flex-col items-start p-5 rounded m-2 mx-3 w-[15rem] md:w-[20rem] transition-transform ease-linear transform hover:scale-110">
-            <img
-              src="https://as1.ftcdn.net/v2/jpg/05/97/13/72/1000_F_597137243_yYnmzSNL0GdyXznPSii44wR3DvQjX7sd.jpg"
-              alt="The Last Dragon of Eldoria"
-              className="w-full h-48 object-cover rounded-t"
-            />
-            <h1 className="font-extrabold mt-2">The Last Dragon of Eldoria</h1>
-            <p className="text-xs font-light text-gray-700 dark:text-gray-400 mt-1">
-              A solitary dragon's journey reveals hidden truths that could alter
-              his world forever. Embark on an epic adventure filled with magic
-              and peril.
-            </p>
-          </div>
-          <div className="bg-zinc-300 dark:bg-zinc-800 flex flex-col items-start p-5 rounded m-2 mx-3 w-[15rem] md:w-[20rem] transition-transform ease-linear transform hover:scale-110">
-            <img
-              src="https://as1.ftcdn.net/v2/jpg/05/97/13/72/1000_F_597137243_yYnmzSNL0GdyXznPSii44wR3DvQjX7sd.jpg"
-              alt="The Last Dragon of Eldoria"
-              className="w-full h-48 object-cover rounded-t"
-            />
-            <h1 className="font-extrabold mt-2">The Last Dragon of Eldoria</h1>
-            <p className="text-xs font-light text-gray-700 dark:text-gray-400 mt-1">
-              A solitary dragon's journey reveals hidden truths that could alter
-              his world forever. Embark on an epic adventure filled with magic
-              and peril.
-            </p>
-          </div>
-          <div className="bg-zinc-300 dark:bg-zinc-800 flex flex-col items-start p-5 rounded m-2 mx-3 w-[15rem] md:w-[20rem] transition-transform ease-linear transform hover:scale-110">
-            <img
-              src="https://as1.ftcdn.net/v2/jpg/05/97/13/72/1000_F_597137243_yYnmzSNL0GdyXznPSii44wR3DvQjX7sd.jpg"
-              alt="The Last Dragon of Eldoria"
-              className="w-full h-48 object-cover rounded-t"
-            />
-            <h1 className="font-extrabold mt-2">The Last Dragon of Eldoria</h1>
-            <p className="text-xs font-light text-gray-700 dark:text-gray-400 mt-1">
-              A solitary dragon's journey reveals hidden truths that could alter
-              his world forever. Embark on an epic adventure filled with magic
-              and peril.
-            </p>
-          </div>
 
-        </div>
+        {loading ? (
+          // Simple loading message without animation
+          <div className="flex flex-col space-y-4 p-5">
+            {[...Array(3)].map((_, index) => (
+              <div
+                key={index}
+                className="animate-pulse bg-gray-300 dark:bg-gray-700 h-48 w-full rounded-xl"
+              />
+            ))}
+          </div>
+        ) : topThreedStories.length > 0 ? (
+          topThreedStories.map((story) => (
+            <div
+              key={story._id}
+              className="flex flex-col items-start p-5 rounded m-1 mx-1/3 md:m-2 md:mx-3 transition-transform ease-linear transform hover:scale-105"
+            >
+              <img
+                src={story.avatar}
+                alt={story.title}
+                className="w-full h-48 object-cover rounded-xl"
+              />
+              <h1 className="font-extrabold mt-2 text-lg md:text-xl">
+                {story.title}
+              </h1>
+              <p className="text-xs font-light text-gray-700 dark:text-gray-400 mt-1">
+                {story.description}
+              </p>
+            </div>
+          ))
+        ) : (
+          <p className="text-center text-gray-500">No stories available</p>
+        )}
+      </div>
       </div>
       {/* Stories Preview Ends */}
 
@@ -146,4 +155,4 @@ export function Home() {
       )}
     </div>
   );
-} 
+}

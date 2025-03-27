@@ -8,7 +8,7 @@ const AuthProvider = ({ children, authentication = true }) => {
     const navigate = useNavigate()
 useEffect(()=>{
     if(authentication&&authentication!==authstatus){
-        navigate('/login');
+        navigate('/sign-in');
     }else if(!authentication&&authentication!==authstatus){
         navigate('/');
     }
