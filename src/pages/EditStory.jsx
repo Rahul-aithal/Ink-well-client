@@ -6,6 +6,7 @@ import ParticipantsList from "../components/ParticipantsList.jsx";
 import StoryEditor from "../components/StoryEditor.jsx";
 import OwnerSearch from "../components/OwnerSearcch.jsx";
 import { writeStory, updateStory, updateStoryTitle } from "../apis/story.js";
+import ImageHandler from "../components/ImageHandler.jsx";
 
 function EditStory() {
   const [story, setStory] = useState("");
@@ -15,26 +16,35 @@ function EditStory() {
   const [owners, setOwners] = useState([]);
   const [newOwners, setNewOwners] = useState([]);
   const [isEditable, setIsEditable] = useState(true);
-
+  const [fileData, setFileData] = useState(null);
+  const [imageURL, setImageURL] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
+  const [storyId, setStroyId] = useState(null);
 
   useEffect(() => {
     const story = location.state?.story;
     const title = location.state?.title;
     const newStory = location.state?.newStory;
+    const storyId = location.state?.story?._id;
 
     if (story) {
       setStory(story.story);
       setTitle(story.title);
       setGenre(story.genre);
       setOwners(story.owners);
+      setImageURL(story.avatar);
+      setStroyId(storyId);
     }
 
     if (title || newStory) {
       setTitle(title);
     }
   }, [location.state]);
+
+  const handleImageFile = (rawFileData) => {
+    setFileData(rawFileData);
+  };
 
   const handleSearchForOwners = async () => {
     try {
@@ -56,8 +66,6 @@ function EditStory() {
 
   const handleSave = async () => {
     try {
-      const storyId = location.state?.story?._id;
-
       if (storyId) {
         const originalTitle = location.state?.story?.title;
         const originalStory = location.state?.story?.story;
@@ -106,6 +114,7 @@ function EditStory() {
             genre,
             isEditable,
             owners,
+            image: fileData,
           });
           if (response.data.success) {
             alert("Story saved successfully!");
@@ -145,6 +154,11 @@ function EditStory() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 p-2">
       <div className="p-3 col-span-12 lg:col-span-3 bg-transparent shadow flex flex-col items-start gap-4 rounded dark:shadow-gray-400 dark:shadow">
+        <ImageHandler
+          storyId={storyId}
+          setImageFile={handleImageFile}
+          imageURL={imageURL}
+        />
         <ParticipantsList owners={owners} />
         <StorySettings
           title={title}
