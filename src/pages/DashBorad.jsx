@@ -21,7 +21,7 @@ function DashBorad() {
   useEffect(() => {
     setLoading(true);
     if (soterdSotries && soterdSotries.length >= 2) {
-      setTopThreedStories([soterdSotries[0], setTopThreedStories[1]]);
+      setTopThreedStories(soterdSotries.slice(0, 2));
       setLoading(false);
     } else {
       getAllStories(query)
