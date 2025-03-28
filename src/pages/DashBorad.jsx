@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Button from "../components/ui/button";
 import { useNavigate } from "react-router";
 import { getAllStories } from "../apis/story";
+import { useDispatch, useSelector } from "react-redux";
+import { setStories } from "../store/storySlice";
 
 const query = {
   search: "all",
@@ -14,14 +16,23 @@ const query = {
 function DashBorad() {
   const [topThreedStories, setTopThreedStories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const soterdSotries = useSelector ((state) => state.story.stories);
   useEffect(() => {
     setLoading(true);
-    getAllStories(query)
-      .then((response) => setTopThreedStories(response.data.data.stories))
-      .catch((err) => alert(err.message))
-      .finally(() => setLoading(false));
+    if (soterdSotries && soterdSotries.length >= 2) {
+      setTopThreedStories([soterdSotries[0], setTopThreedStories[1]]);
+      setLoading(false);
+    } else {
+      getAllStories(query)
+        .then((response) => {
+          setTopThreedStories(response.data.data.stories);
+          dispatch(setStories({ stories: response.data.data.stories }));
+        })
+        .catch((err) => alert(err.message))
+        .finally(() => setLoading(false));
+    }
   }, []);
-
   const navigate = useNavigate();
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4 ">
@@ -34,18 +45,21 @@ function DashBorad() {
             {loading ? (
               // Simple loading message without animation
               <div className="flex flex-col space-y-4 p-5">
-              {[...Array(2)].map((_, index) => (
-                <div
-                  key={index}
-                  className="animate-pulse bg-gray-300 dark:bg-gray-700 h-48 w-full rounded-xl"
-                />
-              ))}
-            </div>
+                {[...Array(2)].map((_, index) => (
+                  <div
+                    key={index}
+                    className="animate-pulse bg-gray-300 dark:bg-gray-700 h-48 w-full rounded-xl"
+                  />
+                ))}
+              </div>
             ) : topThreedStories.length > 0 ? (
               topThreedStories.map((story) => (
                 <div
                   key={story._id}
                   className="flex flex-col items-start p-5 rounded m-1 mx-1/3 md:m-2 md:mx-3 transition-transform ease-linear transform hover:scale-105"
+                  onClick={() =>
+                    navigate("/view-story", { state: { storyId: story._id } })
+                  }
                 >
                   <img
                     src={story.avatar}

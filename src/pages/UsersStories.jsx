@@ -51,8 +51,8 @@ const UserStories = () => {
 
   return (
     <div>
-      <header className="flex flex-col md:flex-row items-center justify-between px-5 py-2 sticky mb-4 z-10 shadow-sm dark:bg-gray-950 dark:text-gray-100">
-        <h1 className="text-xl font-medium">My Stories</h1>
+      <header className="flex flex-col md:flex-row items-center justify-between px-5 py-2 sticky mb-4 z-10 shadow-sm  dark:text-gray-100">
+        <h1 className="text-xl font-medium translate-x-5">My Stories</h1>
         <div className="flex flex-col md:flex-row items-center gap-4 mt-2 md:mt-0">
           <StatusDropdown
             selectedStatus={selectedStatus}
