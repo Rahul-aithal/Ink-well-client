@@ -22,3 +22,7 @@ export const updateEmail = (email) => api.put("/update-email", { email });
 
 // Get User History
 export const getUserHistory = () => api.get("/get-user-history");
+
+export const getNotifications = () => api.get("/get-notification");
+export const deleteNotifications = (notificationId) =>
+  api.delete(`/delete-notification/${notificationId}`);

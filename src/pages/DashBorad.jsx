@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { getAllStories } from "../apis/story";
 import { useDispatch, useSelector } from "react-redux";
 import { setStories } from "../store/storySlice";
+import NotificationCard from "../components/NotificationCard";
 
 const query = {
   search: "all",
@@ -17,7 +18,7 @@ function DashBorad() {
   const [topThreedStories, setTopThreedStories] = useState([]);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const soterdSotries = useSelector ((state) => state.story.stories);
+  const soterdSotries = useSelector((state) => state.story.stories);
   useEffect(() => {
     setLoading(true);
     if (soterdSotries && soterdSotries.length >= 2) {
@@ -107,20 +108,10 @@ function DashBorad() {
       <div className="p-5 flex flex-col gap-5 items-center ">
         <section>
           <h1 className="text-md md:text-2xl">Notifications</h1>
-          <div className="flex flex-col gap-4 mt-4">
-            <p className="text-xs md:text-sm text-gray-500">
-              You have 3 new comments on Your "River vs Man"
-            </p>
-            <p className="text-xs md:text-sm text-gray-500">
-              You have 3 new comments on Your "River vs Man"
-            </p>
-            <p className="text-xs md:text-sm text-gray-500">
-              You have 3 new comments on Your "River vs Man"
-            </p>
-          </div>
+          <NotificationCard />
         </section>
 
-        <section>
+        {/* <section>
           <h1 className="text-md md:text-2xl">Recent Activity</h1>
           <div className="flex flex-col gap-4 mt-4">
             <p className="text-xs md:text-sm text-gray-500">
@@ -133,7 +124,7 @@ function DashBorad() {
               You have 3 new comments on Your "River vs Man"
             </p>
           </div>
-        </section>
+        </section> */}
       </div>
       {/* Right Side Ends */}
     </div>
