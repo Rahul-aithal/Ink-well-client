@@ -59,7 +59,7 @@ export function SigninForm() {
         } else if (error.response.status === 409) {
           // Handle email not found case
           setSubmissionError(
-            "Email not found. Please check your email address."
+            "Email not found. Please check your email address. Or Sing Up with new email address"
           );
         } else {
           // Handle other errors
