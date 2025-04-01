@@ -17,6 +17,7 @@ function EditStory() {
   const [newOwners, setNewOwners] = useState([]);
   const [isEditable, setIsEditable] = useState(true);
   const [fileData, setFileData] = useState(null);
+  const [newStory, setNewStroy] = useState(false);
   const [imageURL, setImageURL] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
@@ -35,6 +36,9 @@ function EditStory() {
       setOwners(story.owners);
       setImageURL(story.avatar);
       setStroyId(storyId);
+      console.log(newStory);
+      
+      setNewStroy(newStory ? true : false);
     }
 
     if (title || newStory) {
@@ -43,6 +47,8 @@ function EditStory() {
   }, [location.state]);
 
   const handleImageFile = (rawFileData) => {
+    console.log(rawFileData);
+
     setFileData(rawFileData);
   };
 
@@ -65,8 +71,11 @@ function EditStory() {
   };
 
   const handleSave = async () => {
+    console.log("Saved");
+
     try {
       if (storyId) {
+        console.log("new Saved");
         const originalTitle = location.state?.story?.title;
         const originalStory = location.state?.story?.story;
 
@@ -103,7 +112,8 @@ function EditStory() {
             alert("An error occurred while saving the story.");
           }
         }
-      } else if (location.state?.newStory) {
+      } else if ( location.state?.newStory) {
+        // console.log("Old Saved", location.state?.newStory);
         const description = location.state?.description;
         const owners = newOwners.map((owner) => owner.username);
         try {
@@ -158,6 +168,7 @@ function EditStory() {
           storyId={storyId}
           setImageFile={handleImageFile}
           imageURL={imageURL}
+          newStory={newStory}
         />
         <ParticipantsList owners={owners} />
         <StorySettings

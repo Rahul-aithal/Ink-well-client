@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { updateStroyThumbnail } from "../apis/story";
 
-function ImageHandler({ storyId, setImageFile, imageURL }) {
+function ImageHandler({ storyId, setImageFile, newStory, imageURL }) {
   const [file, setFile] = useState({
     url: null,
     name: null,
@@ -25,6 +25,7 @@ function ImageHandler({ storyId, setImageFile, imageURL }) {
           raw: fileData, // Store raw file for upload
         });
         setError(null);
+        if (!newStory) setImageFile(fileData);
       } else {
         setError("Please select an image file.");
         setFile({ url: null, name: null, type: null, raw: null });
