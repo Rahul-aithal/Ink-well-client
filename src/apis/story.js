@@ -43,7 +43,7 @@ export const writeStory = ({
       genre,
       isEditable,
       owners,
-      image,
+      image:image,
     },
     {
       headers: {
