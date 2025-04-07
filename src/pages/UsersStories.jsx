@@ -65,7 +65,7 @@ const UserStories = () => {
         </div>
       </header>
 
-      <section className="m-3 p-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <section className="m-3 p-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 ease-in-out delay-150 ">
         {loading && <p>Loading stories...</p>}
         {error && <p>{error}</p>}
         {stories.length > 0 &&

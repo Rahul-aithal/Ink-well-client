@@ -96,8 +96,8 @@ function Story() {
             <Input
               id="story-description"
               placeholder="Story Description"
-              type="text"
-              className="h-56 border-2"
+              type="textarea"
+              className="h-56 border-2 flex-wrap text-wrap "
               value={description}
               onChange={(e) => setDescription(e.target.value)} // Update description state
             />

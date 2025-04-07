@@ -221,7 +221,7 @@ function EditStory() {
           ))}
         </div>
       </div>
-      <StoryEditor story={story} setStory={setStory} handleSave={handleSave} />
+      <StoryEditor story={story} setStory={setStory} handleSave={handleSave} title = {title} />
     </div>
   );
 }

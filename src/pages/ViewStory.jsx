@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { getStoryById } from "../apis/story";
-
+import ViewStoryComponent from "../components/ViewStory";
 function ViewStory() {
   const location = useLocation();
   const storyId = location.state?.storyId; // Get the storyId from the navigation state
@@ -27,17 +27,8 @@ function ViewStory() {
 
   return (
     <div className="min-h-screen p-6  dark:text-white  text-black">
-     
-     {story ? ( <>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">{story.title}</h1>
-      </div>
-
-        <div className="bg-gray-300 dark:bg-gray-950 dark:shadow-gray-100 dark:shadow-sm p-6 rounded-lg shadow-lg">
-          
-          <p className="text-lg">{story.story}</p>
-        </div>
-        </>
+      {story ? (
+        <ViewStoryComponent story={story.story} title={story.title} />
       ) : (
         <p>Loading story...</p>
       )}
