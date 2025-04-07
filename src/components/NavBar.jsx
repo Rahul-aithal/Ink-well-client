@@ -6,7 +6,6 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import Dropdown from "./ui/dropdown";
 
 import { logout } from "../store/AuthSlice";
-import axios from "axios";
 import { signOut } from "../apis/auth";
 
 function NavBar() {

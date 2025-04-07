@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Input, LabelInputContainer } from "../components/ui/input";
 import { BottomGradient } from "../components/ui/button";
 import { useNavigate } from "react-router";
-import axios from "axios";
 import { getAllStories } from "../apis/story";
+import { createToast } from "../lib/utils";
 
 function Story() {
   // State for managing input values
@@ -55,7 +55,7 @@ function Story() {
   // Handle form submission to create a new story
   const handleCreateStory = () => {
     if (!title || !description)
-      return alert("title and description is required");
+      return createToast("title and description is required", "warning");
     navigate("/edit-stories", {
       state: { title, description, newStory: true },
     }); // Navigate to edit-stories with title and description

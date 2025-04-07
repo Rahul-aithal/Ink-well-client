@@ -1,7 +1,6 @@
-import React, { useEffect, useRef } from 'react';
-import Button from './ui/button.jsx';
-
-
+import { useEffect, useRef } from "react";
+import PropTypes from "prop-types";
+import Button from "./ui/button.jsx";
 
 const StoryEditor = ({ story, setStory, handleSave }) => {
   const textareaRef = useRef(null);
@@ -38,5 +37,11 @@ const StoryEditor = ({ story, setStory, handleSave }) => {
   );
 };
 
-export default StoryEditor;
+// ✅ PropTypes validation
+StoryEditor.propTypes = {
+  story: PropTypes.string.isRequired,
+  setStory: PropTypes.func.isRequired,
+  handleSave: PropTypes.func.isRequired,
+};
 
+export default StoryEditor;

@@ -1,15 +1,12 @@
 import { useState } from "react";
-import axios from "axios"; // Ensure axios is imported
 import { Label } from "../components/ui/label";
 import { Input, LabelInputContainer } from "../components/ui/input";
 import { BottomGradient } from "../components/ui/button";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { signUp } from "../apis/auth";
 
 export function SignupForm() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

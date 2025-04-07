@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { deleteNotifications, getNotifications } from "../apis/user";
 
 function NotificationCard() {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -28,7 +27,7 @@ function NotificationCard() {
     setNotifications(
       notifications.filter((notification) => notification._id !== id)
     );
-    console.log(id)
+    console.log(id);
     await deleteNotifications(id);
   };
 

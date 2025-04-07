@@ -1,5 +1,6 @@
 // components/GenreDropdown.js
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/react";
+import PropTypes from "prop-types";
 
 const genreOptions = [
   { genre: "All" },
@@ -11,6 +12,7 @@ const genreOptions = [
 ];
 
 const GenreDropdown = ({ selectedGenre, handleGenreSelection }) => (
+  
   <Menu as="div" className="relative inline-block text-left">
     <div className="flex items-center gap-2">
       <h2 className="hidden md:block">Genre</h2>
@@ -52,5 +54,10 @@ const GenreDropdown = ({ selectedGenre, handleGenreSelection }) => (
     </MenuItems>
   </Menu>
 );
+
+GenreDropdown.propTypes = {
+  selectedGenre: PropTypes.string,
+  handleGenreSelection: PropTypes.func.isRequired,
+};
 
 export default GenreDropdown;

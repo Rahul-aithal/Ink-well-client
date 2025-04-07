@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { deleteStory, updateStoryTitle, updateStoryDesc } from "../apis/story";
 import { Input } from "./ui/input";
 import { TextArea } from "./ui/textArea";
+import { createToast } from "../lib/utils";
 
 const StoryCard = ({ story }) => {
   const [editingTitle, setEditingTitle] = useState(false);
@@ -13,7 +14,6 @@ const StoryCard = ({ story }) => {
   const [storyDesc, setStoryDesc] = useState(story.description);
   const [storyImag, setStoryImag] = useState(story.avatar);
   const navigate = useNavigate();
-
 
   return (
     <div className="bg-white dark:bg-[#010309] border dark:border-[#303337] p-5 rounded-lg shadow-md flex flex-col gap-4   items-start m-1 mx-1/3 md:m-2 md:mx-3 transition-transform ease-linear transform hover:scale-105">
@@ -44,13 +44,13 @@ const StoryCard = ({ story }) => {
                 await updateStoryTitle(story._id, storyTitle);
               } catch (error) {
                 if (error.response.status === 404) {
-                  alert("Story not found");
+                  createToast("Story not found", "error");
                 }
                 if (error.response.status === 403) {
-                  alert("Story is not editable");
+                  createToast("Story is not editable", "warning");
                 }
                 if (error.response.status === 402) {
-                  alert("You are not allowed to update this");
+                  createToast("You are not allowed to update this", "warning");
                 }
               }
             }
@@ -79,13 +79,13 @@ const StoryCard = ({ story }) => {
                 await updateStoryDesc(story._id, storyDesc);
               } catch (error) {
                 if (error.response.status === 404) {
-                  alert("Story not found");
+                  createToast("Story not found", "error");
                 }
                 if (error.response.status === 403) {
-                  alert("Story is not editable");
+                  createToast("Story is not editable", "warning");
                 }
                 if (error.response.status === 402) {
-                  alert("You are not allowed to update this");
+                  createToast("You are not allowed to update this", "warning");
                 }
               }
             }
@@ -118,10 +118,10 @@ const StoryCard = ({ story }) => {
               if (response.status === 200) window.location.reload();
             } catch (error) {
               if (error.response.status === 404) {
-                alert("Story not found");
+                createToast("Story not found", "error");
               }
               if (error.response.status === 402) {
-                alert("You are not allowed to update this");
+                createToast("You are not allowed to update this", "warning");
               }
 
               console.error("Failed to delete story", error);

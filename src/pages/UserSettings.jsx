@@ -1,11 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import axios from "axios";
 import Button from "../components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { changeTheme } from "../store/ThemeSlice";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-import { getUser, updateEmail, updatePassword, updateUsername } from "../apis/user";
+import {
+  getUser,
+  updateEmail,
+  updatePassword,
+  updateUsername,
+} from "../apis/user";
+import { createToast } from "../lib/utils";
 
 function UserSettings() {
   const theme = useSelector((state) => state.theme.theme);
@@ -44,12 +49,12 @@ function UserSettings() {
       const username = inputRefName.current.value;
       const response = await updateUsername(username);
       if (response.data.succes) {
-        alert("Username updated successfully!");
+        createToast("Username updated successfully!", "success");
         inputRefName.current.setAttribute("disabled", true);
       }
     } catch (error) {
       console.error("Failed to update username:", error);
-      alert("Error updating username");
+      createToast("Error updating username", "error");
     }
   };
 
@@ -58,12 +63,12 @@ function UserSettings() {
       const email = inputRefEmail.current.value;
       const response = await updateEmail(email);
       if (response.data.success) {
-        alert("Email updated successfully!");
+        createToast("Email updated successfully!", "success");
         inputRefEmail.current.setAttribute("disabled", true);
       }
     } catch (error) {
       console.error("Failed to update email:", error);
-      alert("Error updating email");
+      createToast("Error updating email", "error");
     }
   };
 
@@ -129,13 +134,13 @@ function UserSettings() {
     e.preventDefault();
     try {
       await updatePassword(currentPassword, newPassword);
-      alert("Password updated successfully!");
+      createToast("Password updated successfully!", "success");
       setCurrentPassword("");
       setNewPassword("");
       setIsChangingPassword(false);
     } catch (error) {
       console.error("Failed to update password:", error);
-      alert("Error updating password");
+      createToast("Error updating password", "error");
     }
   };
 

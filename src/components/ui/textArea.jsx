@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import { cn } from "../../lib/utils"; 
+import { cn } from "../../lib/utils";
 import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
+import PropTypes from "prop-types"; // ✅ Import PropTypes
 
 const TextArea = React.forwardRef((props, ref) => {
-  const { className, rows, ...restProps } = props; 
-  const radius = 100; 
+  const { className, rows, ...restProps } = props;
+  const radius = 100;
   const [visible, setVisible] = useState(false);
 
   const mouseX = useMotionValue(0);
@@ -12,11 +13,10 @@ const TextArea = React.forwardRef((props, ref) => {
 
   const textAreaRef = useRef(null);
 
-  
   const handleInput = () => {
     const textArea = textAreaRef.current;
-    textArea.style.height = "auto"; 
-    textArea.style.height = `${textArea.scrollHeight}px`; 
+    textArea.style.height = "auto";
+    textArea.style.height = `${textArea.scrollHeight}px`;
   };
 
   function handleMouseMove({ currentTarget, clientX, clientY }) {
@@ -27,7 +27,7 @@ const TextArea = React.forwardRef((props, ref) => {
 
   useEffect(() => {
     if (textAreaRef.current) {
-      handleInput(); 
+      handleInput();
     }
   }, []);
 
@@ -48,7 +48,7 @@ const TextArea = React.forwardRef((props, ref) => {
       className="p-[2px] rounded-lg transition duration-300 group/input"
     >
       <textarea
-        rows={rows || 3} 
+        rows={rows || 3}
         ref={(node) => {
           textAreaRef.current = node;
           if (ref) ref(node);
@@ -63,19 +63,32 @@ const TextArea = React.forwardRef((props, ref) => {
           className
         )}
         {...restProps}
-        
       />
     </motion.div>
   );
 });
+
 TextArea.displayName = "TextArea";
+
+// ✅ Add propTypes for TextArea
+TextArea.propTypes = {
+  className: PropTypes.string,
+  rows: PropTypes.number,
+};
 
 export { TextArea };
 
+// ✅ LabelTextAreaContainer component
 export const LabelTextAreaContainer = ({ children, className }) => {
   return (
     <div className={cn("flex flex-col space-y-2 w-full", className)}>
       {children}
     </div>
   );
+};
+
+// ✅ Add propTypes for LabelTextAreaContainer
+LabelTextAreaContainer.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
 };

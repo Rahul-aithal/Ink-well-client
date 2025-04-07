@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllStories } from "../apis/story";
 import { setStories } from "../store/storySlice";
+import { createToast } from "../lib/utils";
 
 const testimonials = [
   {
@@ -75,7 +76,7 @@ export function Home() {
           setTopThreedStories(response.data.data.stories);
           dispatch(setStories({ stories: response.data.data.stories }));
         })
-        .catch((err) => alert(err.message))
+        .catch((err) => createToast(err.message, "error"))
         .finally(() => setLoading(false));
     }
   }, []);

@@ -3,6 +3,7 @@ import { Outlet } from "react-router";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const theme = useSelector((state) => state.theme.theme);
@@ -19,6 +20,7 @@ function App() {
       <NavBar />
       <main className="md:py-2">
         <Outlet />
+        <ToastContainer />
       </main>
       <Footer />
     </div>

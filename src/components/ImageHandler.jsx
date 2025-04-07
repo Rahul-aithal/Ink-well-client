@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { updateStroyThumbnail } from "../apis/story";
+import { createToast } from "../lib/utils";
 
 function ImageHandler({ storyId, setImageFile, newStory, imageURL }) {
   const [file, setFile] = useState({
@@ -64,15 +65,15 @@ function ImageHandler({ storyId, setImageFile, newStory, imageURL }) {
         console.log("Upload successful:", response.data);
         setURL(response.data.data.imageURL);
         setFile({ name: null, raw: null, type: null, url: null });
-        alert("Image uploaded successfully!");
+        createToast("Image uploaded successfully!", "success");
       }
     } catch (error) {
       if (error.response.status === 401) {
-        alert("You are not authorized to perform this action");
+        createToast("You are not authorized to perform this action", "warning");
         return;
       }
       if (error.response.status === 401) {
-        alert("Cloudinary Issue");
+        createToast("Cloudinary Issue", "error");
         return;
       }
       console.log(error);

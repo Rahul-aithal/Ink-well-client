@@ -5,6 +5,7 @@ import { getAllStories } from "../apis/story";
 import { useDispatch, useSelector } from "react-redux";
 import { setStories } from "../store/storySlice";
 import NotificationCard from "../components/NotificationCard";
+import { createToast } from "../lib/utils";
 
 const query = {
   search: "all",
@@ -30,7 +31,7 @@ function DashBorad() {
           setTopThreedStories(response.data.data.stories);
           dispatch(setStories({ stories: response.data.data.stories }));
         })
-        .catch((err) => alert(err.message))
+        .catch((err) => createToast(err.message, "error"))
         .finally(() => setLoading(false));
     }
   }, []);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React,{ useState } from "react";
 import { cn } from "../../lib/utils"; // Ensure this utility is properly defined in your project
 import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
 
@@ -21,7 +21,9 @@ const Input = React.forwardRef((props, ref) => {
       style={{
         background: useMotionTemplate`
           radial-gradient(
-            ${visible ? `${radius}px` : "0px"} circle at ${mouseX}px ${mouseY}px,
+            ${
+              visible ? `${radius}px` : "0px"
+            } circle at ${mouseX}px ${mouseY}px,
             var(--blue-500),
             transparent 80%
           )
@@ -54,10 +56,7 @@ Input.displayName = "Input";
 
 export { Input };
 
-export const LabelInputContainer = ({
-  children,
-  className,
-}) => {
+export const LabelInputContainer = ({ children, className }) => {
   return (
     <div className={cn("flex flex-col space-y-2 w-full", className)}>
       {children}

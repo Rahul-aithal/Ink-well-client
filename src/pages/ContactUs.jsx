@@ -1,8 +1,8 @@
-
-import  { useState } from "react";
+import { useState } from "react";
 import Button from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
+import { createToast } from "../lib/utils";
 
 const ContactUs = () => {
   const [userEmail, setUserEmail] = useState("");
@@ -14,23 +14,36 @@ const ContactUs = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Placeholder for form submission logic
-    alert("Form submitted!"); 
+    createToast("Form submitted!", "success");
   };
 
   return (
     <div className="p-4 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">Contact Us</h1>
-        
+
         <p className="mb-4">
-          Please provide your email and the subject of your message. We will get back to you as soon as possible.
+          Please provide your email and the subject of your message. We will get
+          back to you as soon as possible.
           <br />
-          You can also reach us directly at <a href="mailto:aithalrahul34@gmail.com" className="text-blue-600 dark:text-blue-400" target="_blank" rel="noopener noreferrer">aithalrahul34@gmail.com</a>.
+          You can also reach us directly at{" "}
+          <a
+            href="mailto:aithalrahul34@gmail.com"
+            className="text-blue-600 dark:text-blue-400"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            aithalrahul34@gmail.com
+          </a>
+          .
         </p>
-        
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <Label htmlFor="user-email" className="block text-sm font-medium mb-2">
+            <Label
+              htmlFor="user-email"
+              className="block text-sm font-medium mb-2"
+            >
               Your Email
             </Label>
             <Input
@@ -59,10 +72,7 @@ const ContactUs = () => {
             />
           </div>
 
-          <Button
-            type="submit"
-            className=""
-          >
+          <Button type="submit" className="">
             Submit
           </Button>
         </form>

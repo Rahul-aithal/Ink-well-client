@@ -7,6 +7,7 @@ import StoryEditor from "../components/StoryEditor.jsx";
 import OwnerSearch from "../components/OwnerSearcch.jsx";
 import { writeStory, updateStory, updateStoryTitle } from "../apis/story.js";
 import ImageHandler from "../components/ImageHandler.jsx";
+import { createToast } from "../lib/utils.js";
 
 function EditStory() {
   const [story, setStory] = useState("");
@@ -37,7 +38,7 @@ function EditStory() {
       setImageURL(story.avatar);
       setStroyId(storyId);
       console.log(newStory);
-      
+
       setNewStroy(newStory ? true : false);
     }
 
@@ -87,32 +88,35 @@ function EditStory() {
           try {
             const response = await updateStory(storyId, story);
             if (response.status === 200) {
-              alert("Story updated successfully!");
+              createToast("Story updated successfully!", "success");
               navigate("/your-stories");
             }
           } catch (error) {
             if (error.response.status === 400) {
-              alert("Story is required");
+              createToast("Story is required", "error");
               return;
             }
             if (error.response.status === 404) {
-              alert("Story is not found");
+              createToast("Story is not found", "error");
               return;
             }
             if (error.response.status === 403) {
-              alert("Story is  not editable");
+              createToast("Story is not editable", "error");
               return;
             }
             if (error.response.status === 401) {
-              alert("You are not authorized to perform this action");
+              createToast(
+                "You are not authorized to perform this action",
+                "error"
+              );
               return;
             }
             console.log(error);
 
-            alert("An error occurred while saving the story.");
+            createToast("An error occurred while saving the story.", "error");
           }
         }
-      } else if ( location.state?.newStory) {
+      } else if (location.state?.newStory) {
         // console.log("Old Saved", location.state?.newStory);
         const description = location.state?.description;
         const owners = newOwners.map((owner) => owner.username);
@@ -127,29 +131,35 @@ function EditStory() {
             image: fileData,
           });
           if (response.data.success) {
-            alert("Story saved successfully!");
+            createToast("Story saved successfully!", "success");
           }
 
           navigate("/your-stories");
         } catch (error) {
           if (error.response.status === 400) {
-            alert("Title, Description, Story, Genre are all required");
+            createToast(
+              "Title, Description, Story, Genre are all required",
+              "error"
+            );
             return;
           }
           if (error.response.status === 409) {
-            alert("Story already exists");
+            createToast("Story already exists", "error");
             return;
           }
           if (error.response.status === 401) {
-            alert("You are not authorized to perform this action");
+            createToast(
+              "You are not authorized to perform this action",
+              "error"
+            );
             return;
           }
-          alert("An error occurred while saving the story.");
+          createToast("An error occurred while saving the story.", "error");
           console.log(error);
         }
       }
     } catch (error) {
-      alert("An error occurred while saving the story.");
+      createToast("An error occurred while saving the story.", "error");
     }
   };
 
