@@ -2,7 +2,7 @@
 
 const AboutUs = () => {
   return (
-    <div className="p-4 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
+    <div className="p-4  min-h-screen">
       <div className="max-w-3xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">About Ink Well</h1>
         

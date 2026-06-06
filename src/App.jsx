@@ -22,7 +22,7 @@ function App() {
         <Outlet />
         <ToastContainer />
       </main>
-      <Footer />
+      {/* <Footer />*/}
     </div>
   );
 }

@@ -111,7 +111,6 @@ function EditStory() {
               );
               return;
             }
-            console.log(error);
 
             createToast("An error occurred while saving the story.", "error");
           }

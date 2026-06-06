@@ -1,10 +1,9 @@
-import React from "react";
 
 const updates = [
   {
-    title: "Notification System Now Live",
+    title: "Notification System Now Down",
     description:
-      "The notification system has been successfully implemented! Users will now receive real-time updates and alerts about activities related to their account, including comments, likes, and other important events. Stay informed with our new in-app notification center.",
+      "The notification system has been successfully implemented! Users will now receive real-time updates and alerts about activities related to their account and other important events. But due technical reason it has been taken down",
   },
   {
     title: "Interactive Comments and Likes Feature",
@@ -35,7 +34,7 @@ const updates = [
 
 const NewsUpdates = () => {
   return (
-    <div className="p-6 sm:p-10 bg-white dark:bg-slate  -900 text-gray-900 dark:text-gray-100 min-h-screen transition-colors duration-300">
+    <div className="p-6 sm:p-10  min-h-screen transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold mb-4 text-center">🚀 Latest Updates</h1>
         <p className="text-center text-lg mb-10 text-gray-600 dark:text-gray-400">

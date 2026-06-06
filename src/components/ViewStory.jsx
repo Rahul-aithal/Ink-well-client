@@ -1,5 +1,5 @@
-import React from "react";
 import Markdown from "react-markdown";
+import remarkGfm from 'remark-gfm';
 
 function ViewStoryComponent({ title, story }) {
   return (
@@ -8,8 +8,9 @@ function ViewStoryComponent({ title, story }) {
         <h1 className="text-2xl font-bold">{title}</h1>
       </div>
 
-      <div className="bg-gray-300 dark:bg-gray-950 dark:shadow-gray-100 dark:shadow-sm p-6 rounded-lg shadow-lg">
+      <div className="bg-gray-600 dark:bg-gray-950  p-6 rounded-lg shadow-lg prose prose-invert max-w-50dvw">
         <Markdown
+          remarkPlugins={[remarkGfm]}
           components={{
             p: ({ node, ...props }) => (
               <p style={{ whiteSpace: "pre-wrap", marginBottom: "1em" }} {...props} />

@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import Button from "../components/ui/button";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { getAllStories } from "../apis/story";
-import { useDispatch, useSelector } from "react-redux";
-import { setStories } from "../store/storySlice";
 import NotificationCard from "../components/NotificationCard";
+import StoryCardFeat from "../components/StoryCardFeat";
+import Button from "../components/ui/button";
 import { createToast } from "../lib/utils";
+import { setStories } from "../store/storySlice";
 
 const query = {
   search: "all",
@@ -56,25 +57,7 @@ function DashBorad() {
               </div>
             ) : topThreedStories.length > 0 ? (
               topThreedStories.map((story) => (
-                <div
-                  key={story._id}
-                  className="flex flex-col items-start p-5 rounded m-1 mx-1/3 md:m-2 md:mx-3 transition-transform ease-linear transform hover:scale-105"
-                  onClick={() =>
-                    navigate("/view-story", { state: { storyId: story._id } })
-                  }
-                >
-                  <img
-                    src={story.avatar}
-                    alt={story.title}
-                    className="w-full h-48 object-cover rounded-xl"
-                  />
-                  <h1 className="font-extrabold mt-2 text-lg md:text-xl">
-                    {story.title}
-                  </h1>
-                  <p className="text-xs font-light text-gray-700 dark:text-gray-400 mt-1">
-                    {story.description}
-                  </p>
-                </div>
+                <StoryCardFeat  avatar={story.avatar} description={story.description} id={story._id} title={story.title}/>
               ))
             ) : (
               <p className="text-center text-gray-500">No stories available</p>

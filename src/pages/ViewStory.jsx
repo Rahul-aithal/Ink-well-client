@@ -26,7 +26,7 @@ function ViewStory() {
   }, [storyId]);
 
   return (
-    <div className="min-h-screen p-6  dark:text-white  text-black">
+    <div className="min-h-screen p-6 flex justify-center items-center ">
       {story ? (
         <ViewStoryComponent story={story.story} title={story.title} />
       ) : (

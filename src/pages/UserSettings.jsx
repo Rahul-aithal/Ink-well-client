@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import Button from "../components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
-import { changeTheme } from "../store/ThemeSlice";
-import { Input } from "../components/ui/input";
-import { Label } from "../components/ui/label";
 import {
   getUser,
   updateEmail,
   updatePassword,
   updateUsername,
 } from "../apis/user";
+import Button from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
 import { createToast } from "../lib/utils";
+import { changeTheme } from "../store/ThemeSlice";
 
 function UserSettings() {
   const theme = useSelector((state) => state.theme.theme);
@@ -25,9 +25,9 @@ function UserSettings() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
+  const firstFetch = useRef(null);
   useEffect(() => {
-    setIsChecked(theme === "dark");
-
+    if (!firstFetch) return;
     // Fetch current user data
     const fetchUserData = async () => {
       try {
@@ -42,6 +42,10 @@ function UserSettings() {
     };
 
     fetchUserData();
+  }, [firstFetch]);
+
+  useEffect(() => {
+    setIsChecked(theme === "dark");
   }, [theme]);
 
   const handleUpdateUsername = async () => {
@@ -152,7 +156,7 @@ function UserSettings() {
   return (
     <div className="p-2">
       <h1 className="text-xl font-medium">Account Details</h1>
-      <section className="p-1 rounded shadow-lg dark:bg-black bg-white dark:shadow-white bg-transparent backdrop:blur dark:shadow-sm w-full">
+      <section className="p-1 rounded shadow-lg  dark:shadow-white bg-transparent backdrop:blur dark:shadow-sm w-full">
         <span className="flex items-center justify-between px-3 border-g">
           <p>
             User name:{" "}

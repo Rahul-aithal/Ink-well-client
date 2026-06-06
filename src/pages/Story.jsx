@@ -72,7 +72,7 @@ function Story() {
       <div className="flex flex-col">
         <h1 className="text-xl md:text-2xl mb-4">Create or Join a Story</h1>
         <form
-          className="p-3 shadow-xl dark:shadow bg-zinc-300 dark:bg-zinc-900 rounded"
+          className="border-t-2 dark:border-0  p-3 shadow-xl dark:shadow bg-zinc-100 dark:bg-zinc-900 rounded"
           onSubmit={(e) => {
             e.preventDefault(); // Prevent default form submission
             handleCreateStory(); // Handle story creation
@@ -117,7 +117,7 @@ function Story() {
 
       {/* Right Side Starts */}
       <div className="flex flex-col">
-        <form className="p-3 shadow-xl dark:shadow bg-zinc-300 dark:bg-zinc-900 rounded">
+        <form className="p-3 shadow-xl dark:shadow bg-zinc-100 dark:bg-zinc-900 rounded">
           <h2 className="text-xl mb-5">Join an Existing Story</h2>
 
           {/* Search Input for Existing Stories */}
@@ -142,7 +142,7 @@ function Story() {
               searchedStories.map((story) => (
                 <div
                   key={story._id}
-                  className="dark:bg-zinc-800 bg-zinc-300 p-3 rounded-xl mt-3"
+                  className="dark:bg-zinc-800 bg-zinc-200 p-3 rounded-xl m-3"
                 >
                   <div className="m-2 mb-5">
                     <h1 className="text-xl">{story.title}</h1>

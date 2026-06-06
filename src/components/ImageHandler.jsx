@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { updateStroyThumbnail } from "../apis/story";
 import { createToast } from "../lib/utils";
 
@@ -13,7 +14,20 @@ function ImageHandler({ storyId, setImageFile, newStory, imageURL }) {
   const [error, setError] = useState(null);
   const [hover, setHover] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [copybtn, setCopybtn] = useState({ value: "", visible: false });
+  const handleCopy = async () => {
+     try {
+       if (copybtn.value.length === 0 || !copybtn.visible) {
+         toast.info("Nothing to copy")
+       }
+       // Uses the browser's Clipboard API
+       const copyText = `![thumbnail](${copybtn.value.replace(/\?.*$/, "")})`
+       await navigator.clipboard.writeText(copyText);
 
+     } catch (error) {
+       console.error("Failed to copy text: ", error);
+     }
+   };
   function handleChange(e) {
     const fileData = e.target.files?.[0];
     if (fileData) {
@@ -37,12 +51,15 @@ function ImageHandler({ storyId, setImageFile, newStory, imageURL }) {
   useEffect(() => {
     if (imageURL) {
       setURL(imageURL);
+      setCopybtn({value:imageURL,visible:true})
     }
   }, [imageURL]);
 
   useEffect(() => {
     if (file.url) {
       setURL(file.url);
+
+      setCopybtn({value:"",visible:false})
     }
 
     return () => {
@@ -62,10 +79,12 @@ function ImageHandler({ storyId, setImageFile, newStory, imageURL }) {
       setUploading(true);
       const response = await updateStroyThumbnail(storyId, file.raw);
       if (response.status === 200) {
-        console.log("Upload successful:", response.data);
-        setURL(response.data.data.imageURL);
+        const imageUrl = response.data.data.imageURL;
+        setURL(imageUrl);
+        setCopybtn({ value: imageURL, visible: true });
         setFile({ name: null, raw: null, type: null, url: null });
         createToast("Image uploaded successfully!", "success");
+
       }
     } catch (error) {
       if (error.response.status === 401) {
@@ -166,8 +185,10 @@ function ImageHandler({ storyId, setImageFile, newStory, imageURL }) {
               </button>
             </div>
           )}
+
         </div>
       )}
+      <button onClick={handleCopy} className={`${copybtn.value}?" bg-green-800 p-2 rounded-md m-2":"none"`}>Copy Thumb URL</button>
     </div>
   );
 }

@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
+import { useEffect, useRef, useState } from "react";
 import Button from "./ui/button.jsx";
-import Markdown from "react-markdown";
 import ViewStoryComponent from "./ViewStory.jsx";
 
 const StoryEditor = ({ story, setStory, handleSave, title }) => {

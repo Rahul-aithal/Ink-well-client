@@ -82,7 +82,7 @@ function NavBar() {
           to={"/"}
           className="me-5 md:me-0 font-inter text-xl font-bold cursor-pointer dark:text-white"
         >
-          InkWell
+          <img src="..\public\inkwell.svg"/>
         </Link>
         <span onClick={handleIconClick} className="md:hidden cursor-pointer">
           <svg
