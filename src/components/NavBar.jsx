@@ -78,12 +78,6 @@ function NavBar() {
   return (
     <div className="max-w-screen md:max-w-[100dvw] p-4 md:px-5 sticky top-2 inset-x-0 mx-auto z-50 bg-white bg-opacity-20 dark:bg-black dark:bg-opacity-20 dark:hover:bg-opacity-80 dark:border-b dark:border-gray-700 shadow-md md:flex md:justify-between md:items-center rounded-full">
       <div className="flex justify-between items-center ">
-        <Link
-          to={"/"}
-          className="me-5 md:me-0 font-inter text-xl font-bold cursor-pointer dark:text-white"
-        >
-          <img src="..\public\inkwell.svg"/>
-        </Link>
         <span onClick={handleIconClick} className="md:hidden cursor-pointer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
